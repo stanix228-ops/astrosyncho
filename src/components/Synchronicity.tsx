@@ -94,27 +94,28 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({
     <section
       id="synchronicity"
       ref={sectionRef}
-      className="relative min-h-[760px] lg:min-h-[840px] py-24 lg:py-32 flex items-center overflow-hidden bg-[#080910] border-t border-[rgba(190,185,255,0.12)]"
+      className="relative py-24 lg:py-32 overflow-hidden bg-[#080910] border-t border-[rgba(190,185,255,0.12)]"
       aria-labelledby="synchronicity-heading"
     >
-      {/* Full-Bleed Section Background: synchronicity.webp */}
+      {/* Subtle Dual Ambient Illumination (Lavender Left, Icy-Blue Right) */}
       <div
-        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+        className="pointer-events-none absolute top-1/3 left-[-10%] h-[480px] w-[480px] rounded-full opacity-18 blur-[130px]"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(167,154,255,0.34) 0%, transparent 70%)",
+        }}
         aria-hidden="true"
-      >
-        <img
-          src="./images/synchronicity.webp"
-          alt="Две светящиеся орбитальные системы — лавандовая и ледяная голубая — плавно сближаются в общей точке притяжения"
-          width={1376}
-          height={768}
-          loading="lazy"
-          className="h-full w-full object-cover object-center opacity-85"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#080910] via-[#080910]/35 to-[#080910]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#080910]/35 via-transparent to-[#080910]/85" />
-      </div>
+      />
+      <div
+        className="pointer-events-none absolute bottom-1/4 right-[-10%] h-[480px] w-[480px] rounded-full opacity-18 blur-[130px]"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(169,216,255,0.3) 0%, transparent 70%)",
+        }}
+        aria-hidden="true"
+      />
 
-      <div className="relative z-10 w-full mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
         {/* Section Header */}
         <div
           className={`max-w-3xl transition-all duration-1000 ease-out ${
@@ -143,12 +144,27 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({
           </p>
         </div>
 
-        {/* Main Composition: Open Converging Orbits Stage Over Full-Bleed Background + Compatibility Interface */}
+        {/* Main Composition: Converging Orbits Visual Anchor + Understated Compatibility Interface */}
         <div className="mt-12 lg:mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Left 7 Cols: Open Dual-Orbit SVG Motion Over Full-Bleed Background */}
+          {/* Left 7 Cols: Original Synchronicity Key Visual + Refined Dual-Orbit SVG Motion */}
           <div className="lg:col-span-7">
-            <div className="relative rounded-[26px] overflow-hidden border border-[rgba(190,185,255,0.16)] bg-[rgba(8,9,16,0.34)] backdrop-blur-[2px]">
+            <div className="relative rounded-[26px] overflow-hidden border border-[rgba(190,185,255,0.18)] bg-[#0D0F18] shadow-[0_24px_80px_-20px_rgba(8,9,16,0.9)]">
               <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden">
+                <img
+                  src="./images/synchronicity.webp"
+                  alt="Две светящиеся орбитальные системы — лавандовая и ледяная голубая — плавно сближаются в общей точке притяжения"
+                  width={1376}
+                  height={768}
+                  loading="lazy"
+                  className="h-full w-full object-cover object-center"
+                />
+
+                {/* Subtle Edge Blending */}
+                <div
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080910]/80 via-transparent to-[#080910]/30"
+                  aria-hidden="true"
+                />
+
                 {/* Lightweight SVG Orbital Convergence Sequence */}
                 <svg
                   className="pointer-events-none absolute inset-0 h-full w-full"
@@ -171,9 +187,9 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({
                     d="M 170 270 A 239 142 0 1 1 648 270 A 239 142 0 1 1 170 270"
                     stroke="#A79AFF"
                     strokeOpacity={
-                      activeCategory.orbitAccent === "lavender" ? "0.58" : "0.3"
+                      activeCategory.orbitAccent === "lavender" ? "0.48" : "0.24"
                     }
-                    strokeWidth="1.2"
+                    strokeWidth="1.1"
                     strokeDasharray="5 6"
                   />
 
@@ -183,9 +199,9 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({
                     d="M 648 270 A 72 82 0 1 1 792 270 A 72 82 0 1 1 648 270"
                     stroke="#A9D8FF"
                     strokeOpacity={
-                      activeCategory.orbitAccent === "ice" ? "0.62" : "0.34"
+                      activeCategory.orbitAccent === "ice" ? "0.52" : "0.28"
                     }
-                    strokeWidth="1.2"
+                    strokeWidth="1.1"
                     strokeDasharray="4 5"
                   />
 
