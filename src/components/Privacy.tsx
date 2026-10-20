@@ -61,12 +61,12 @@ export const Privacy: React.FC<PrivacyProps> = ({ onOpenLegal }) => {
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
         <div
-          className={`grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center transition-opacity duration-1000 ease-out ${
+          className={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start transition-opacity duration-1000 ease-out ${
             hasEntered || prefersReducedMotion ? "opacity-100" : "opacity-0"
           }`}
         >
-          {/* Left Column (6 Cols): Calm Editorial Copy & Planned Privacy Controls */}
-          <div className="lg:col-span-6 flex flex-col items-start text-left space-y-6">
+          {/* Left Column (5 Cols): Calm Editorial Copy, Transparency Note & Legal Links */}
+          <div className="lg:col-span-5 flex flex-col items-start text-left space-y-6">
             <span className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-[#A79AFF]">
               PRIVACY / 05
             </span>
@@ -81,47 +81,19 @@ export const Privacy: React.FC<PrivacyProps> = ({ onOpenLegal }) => {
               </span>
             </h2>
 
-            <p className="font-sans text-base sm:text-lg text-[#A1A2B5] font-light leading-[1.65] max-w-[540px]">
+            <p className="font-sans text-base sm:text-lg text-[#A1A2B5] font-light leading-[1.65] max-w-[480px]">
               Знакомься в комфортном для себя темпе. Понимай, какую информацию о
               себе раскрываешь и как управляешь своим профилем.
             </p>
 
-            {/* Clearly Separated Planned Product Controls */}
-            <div className="w-full pt-2 space-y-3">
-              <div className="flex items-center justify-between gap-2 pb-1">
-                <span className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#A1A2B5]">
-                  ПЛАНИРУЕМАЯ АРХИТЕКТУРА УПРАВЛЕНИЯ ПРОФИЛЕМ В ПРИЛОЖЕНИИ
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {PRIVACY_ITEMS.map((item) => {
-                  const Icon = item.icon
-                  return (
-                    <div
-                      key={item.title}
-                      className="flex items-start gap-4 rounded-[20px] border border-[rgba(190,185,255,0.14)] bg-[rgba(19,21,38,0.58)] p-4 sm:p-5"
-                    >
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(190,185,255,0.2)] bg-[#14182A]/80 text-[#A79AFF]">
-                        <Icon className="h-4 w-4" aria-hidden="true" />
-                      </div>
-                      <div className="space-y-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <h3 className="font-editorial text-xl sm:text-2xl text-[#F4F3FA]">
-                            {item.title}
-                          </h3>
-                          <span className="font-mono-tech text-[9px] uppercase tracking-[0.14em] text-[#A1A2B5]/80">
-                            ПЛАНИРУЕМАЯ ФУНКЦИЯ
-                          </span>
-                        </div>
-                        <p className="font-sans text-xs sm:text-sm text-[#A1A2B5] font-light leading-relaxed">
-                          {item.description}
-                        </p>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
+            <div className="w-full max-w-[480px] rounded-2xl border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.62)] backdrop-blur-md p-5">
+              <span className="block font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#A9D8FF]">
+                ПРОЗРАЧНОСТЬ И КОНТРОЛЬ
+              </span>
+              <p className="mt-1.5 font-sans text-xs sm:text-sm text-[#F4F3FA]/90 font-light leading-relaxed">
+                Спокойная цифровая среда, в которой вы сами выбираете темп
+                знакомства и объём открытой информации.
+              </p>
             </div>
 
             {/* Direct Link to Privacy Policy Modal */}
@@ -148,34 +120,42 @@ export const Privacy: React.FC<PrivacyProps> = ({ onOpenLegal }) => {
             </div>
           </div>
 
-          {/* Right Column (6 Cols): Smoked-Glass Sculpture Visual */}
-          <div className="lg:col-span-6">
-            <div className="relative mx-auto max-w-[540px] lg:max-w-none rounded-[26px] overflow-hidden border border-[rgba(190,185,255,0.16)] bg-[#0D0F18] shadow-[0_24px_80px_-20px_rgba(8,9,16,0.9)]">
-              <div className="aspect-[10/11] w-full overflow-hidden">
-                <img
-                  src="./images/privacy-glass.webp"
-                  alt="Минималистичная архитектурная скульптура из матового тёмного стекла в лавандовом и ледяном голубом свете, символизирующая спокойствие и личные границы"
-                  width={1000}
-                  height={1100}
-                  loading="lazy"
-                  className="h-full w-full object-cover object-center"
-                />
-              </div>
+          {/* Right Column (7 Cols): 2x2 Architectural Grid of Planned Privacy Controls */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="flex items-center justify-between gap-2 pb-1">
+              <span className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#A1A2B5]">
+                ПЛАНИРУЕМАЯ АРХИТЕКТУРА УПРАВЛЕНИЯ ПРОФИЛЕМ В ПРИЛОЖЕНИИ
+              </span>
+            </div>
 
-              <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080910]/85 via-transparent to-[#080910]/20"
-                aria-hidden="true"
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {PRIVACY_ITEMS.map((item) => {
+                const Icon = item.icon
+                return (
+                  <div
+                    key={item.title}
+                    className="flex flex-col justify-between gap-4 rounded-[22px] border border-[rgba(190,185,255,0.14)] bg-[rgba(19,21,38,0.58)] p-5 sm:p-6 transition-colors hover:border-[rgba(190,185,255,0.26)]"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(190,185,255,0.2)] bg-[#14182A]/80 text-[#A79AFF]">
+                        <Icon className="h-4 w-4" aria-hidden="true" />
+                      </div>
+                      <span className="font-mono-tech text-[9px] uppercase tracking-[0.14em] text-[#A1A2B5]/80">
+                        ПЛАНИРУЕМАЯ ФУНКЦИЯ
+                      </span>
+                    </div>
 
-              <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 rounded-2xl border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.72)] backdrop-blur-md p-4">
-                <span className="block font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#A9D8FF]">
-                  ПРОЗРАЧНОСТЬ И КОНТРОЛЬ
-                </span>
-                <p className="mt-1 font-sans text-xs sm:text-sm text-[#F4F3FA]/90 font-light leading-relaxed">
-                  Спокойная цифровая среда, в которой вы сами выбираете темп
-                  знакомства и объём открытой информации.
-                </p>
-              </div>
+                    <div className="space-y-1.5">
+                      <h3 className="font-editorial text-xl sm:text-2xl text-[#F4F3FA]">
+                        {item.title}
+                      </h3>
+                      <p className="font-sans text-xs sm:text-sm text-[#A1A2B5] font-light leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>

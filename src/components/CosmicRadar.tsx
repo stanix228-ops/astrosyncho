@@ -17,42 +17,32 @@ const OBSERVATORY_HOTSPOTS: Array<{
   signalIndex: number
   left: string
   top: string
-  cx: number
-  cy: number
   delayMs: number
   isPrimary?: boolean
 }> = [
   {
     signalIndex: 0,
-    left: "70.1%",
-    top: "43.2%",
-    cx: 673,
-    cy: 233,
+    left: "52%",
+    top: "42%",
     delayMs: 0,
     isPrimary: true,
   },
   {
     signalIndex: 1,
-    left: "78.5%",
-    top: "36.8%",
-    cx: 754,
-    cy: 199,
+    left: "70%",
+    top: "31%",
     delayMs: 650,
   },
   {
     signalIndex: 2,
-    left: "73.8%",
-    top: "51.6%",
-    cx: 708,
-    cy: 279,
+    left: "61%",
+    top: "56%",
     delayMs: 1200,
   },
   {
     signalIndex: 3,
-    left: "55.8%",
-    top: "52.2%",
-    cx: 536,
-    cy: 282,
+    left: "28%",
+    top: "58%",
     delayMs: 1750,
   },
 ]
@@ -74,21 +64,125 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
     <section
       id="radar"
       ref={sectionRef}
-      className="relative py-24 lg:py-32 overflow-hidden bg-[#080910] border-t border-[rgba(190,185,255,0.12)]"
+      className="relative min-h-[780px] lg:min-h-[860px] py-24 lg:py-32 flex items-center overflow-hidden bg-[#080910] border-t border-[rgba(190,185,255,0.12)]"
       aria-labelledby="active-signals-heading"
     >
-      {/* Subtle Ambient Light Source */}
-      <div
-        className="pointer-events-none absolute top-1/4 right-[-8%] h-[520px] w-[520px] rounded-full opacity-20 blur-[130px]"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(110,91,255,0.38) 0%, rgba(169,216,255,0.12) 55%, transparent 100%)",
-        }}
-        aria-hidden="true"
-      />
+      {/* Full-Bleed Section Background: active-signals.webp + Animated Radar SVG */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <img
+          src="./images/active-signals.webp"
+          alt="Космическая обсерватория AstroSyncho с голографическим радаром, обнаруживающим светящиеся сигналы в глубоком космосе"
+          width={1376}
+          height={768}
+          loading="lazy"
+          className="h-full w-full object-cover object-[72%_center] lg:object-center"
+        />
 
-      <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-        {/* Asymmetric Editorial Split + Immersive Observatory Key Visual */}
+        {/* Directional Vignette Overlays for Seamless Blending & Text Readability */}
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-[#080910]/92 via-[#080910]/55 to-[#080910]/20"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-[#080910] via-transparent to-[#080910]"
+          aria-hidden="true"
+        />
+
+        {/* Full-Resolution Animated SVG Radar Overlay Locked to the Background Sphere (965, 332 in 1376x768) */}
+        <svg
+          className="absolute inset-0 h-full w-full"
+          viewBox="0 0 1376 768"
+          preserveAspectRatio="xMidYMid slice"
+          fill="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient
+              id="observatoryScanBeam"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor="#A9D8FF" stopOpacity="0.26" />
+              <stop offset="55%" stopColor="#6E5BFF" stopOpacity="0.09" />
+              <stop offset="100%" stopColor="#080910" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          {/* Fine Orbital Rings Centered on the Holographic Radar Sphere (965, 332) */}
+          <g
+            style={{
+              opacity: hasEntered ? 0.88 : 0.2,
+              transition: "opacity 1.2s ease-out",
+            }}
+          >
+            <ellipse
+              cx="965"
+              cy="332"
+              rx="280"
+              ry="118"
+              transform="rotate(-14 965 332)"
+              stroke="#A79AFF"
+              strokeOpacity="0.32"
+              strokeWidth="1.1"
+              strokeDasharray="5 7"
+            />
+            <ellipse
+              cx="965"
+              cy="332"
+              rx="208"
+              ry="86"
+              transform="rotate(18 965 332)"
+              stroke="#A9D8FF"
+              strokeOpacity="0.28"
+              strokeWidth="1"
+              strokeDasharray="3 5"
+            />
+            <circle
+              cx="965"
+              cy="332"
+              r="160"
+              stroke="#6E5BFF"
+              strokeOpacity="0.26"
+              strokeWidth="1"
+              strokeDasharray="2 6"
+            />
+          </g>
+
+          {/* Slowly Rotating Scanning Beam Around (965, 332) */}
+          <g
+            style={{ transformOrigin: "965px 332px" }}
+            className={prefersReducedMotion ? "" : "animate-radar-sweep"}
+          >
+            <path
+              d="M 965 332 L 1195 235 A 250 250 0 0 1 1168 478 Z"
+              fill="url(#observatoryScanBeam)"
+            />
+            <line
+              x1="965"
+              y1="332"
+              x2="1195"
+              y2="235"
+              stroke="#A9D8FF"
+              strokeOpacity="0.52"
+              strokeWidth="1.2"
+            />
+          </g>
+
+          {/* Luminous Trajectory Connecting Primary Signal toward Section 03 */}
+          <path
+            d="M 965 332 Q 910 560 688 768"
+            stroke="#A79AFF"
+            strokeOpacity={0.24 + scrollProgress * 0.45}
+            strokeWidth="1.4"
+            strokeDasharray="5 6"
+          />
+        </svg>
+      </div>
+
+      <div className="relative z-10 w-full mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
+        {/* Asymmetric Editorial Split Over Full-Resolution Observatory Background */}
         <div
           className={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center transition-all duration-1000 ease-out ${
             hasEntered || prefersReducedMotion
@@ -140,7 +234,7 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
 
             {/* Understated Illustrative Signal Preview Panel */}
             <div
-              className="w-full max-w-[470px] rounded-[22px] border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.68)] backdrop-blur-xl p-5 sm:p-6 transition-all duration-300"
+              className="w-full max-w-[470px] rounded-[22px] border border-[rgba(190,185,255,0.18)] bg-[rgba(13,15,24,0.74)] backdrop-blur-xl p-5 sm:p-6 transition-all duration-300 shadow-[0_24px_60px_-20px_rgba(8,9,16,0.85)]"
               aria-live="polite"
             >
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[rgba(190,185,255,0.12)]">
@@ -216,200 +310,74 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
             </div>
           </div>
 
-          {/* Right Column (7 Cols): Art-Directed Observatory Key Visual + Animated Radar Overlay */}
+          {/* Right Column (7 Cols): Open Interactive Radar Stage Over the Full-Bleed Background */}
           <div className="lg:col-span-7">
-            <div className="relative rounded-[26px] overflow-hidden border border-[rgba(190,185,255,0.18)] bg-[#0D0F18] shadow-[0_24px_80px_-20px_rgba(8,9,16,0.9)]">
-              {/* Main Generated Key Visual: active-signals.webp */}
-              <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden">
-                <img
-                  src="./images/active-signals.webp"
-                  alt="Космическая обсерватория AstroSyncho с голографическим радаром, обнаруживающим светящиеся сигналы в глубоком космосе"
-                  width={1376}
-                  height={768}
-                  loading="lazy"
-                  className="h-full w-full object-cover object-[72%_center] sm:object-center"
-                />
-
-                {/* Subtle Edge Vignette for Seamless Integration */}
-                <div
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#080910]/65 via-transparent to-[#080910]/25"
-                  aria-hidden="true"
-                />
-                <div
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080910]/75 via-transparent to-[#080910]/25"
-                  aria-hidden="true"
-                />
-
-                {/* Animated SVG Radar Overlay: Scanning Beam & Fine Orbital Lines */}
-                <svg
-                  className="pointer-events-none absolute inset-0 h-full w-full"
-                  viewBox="0 0 960 540"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <defs>
-                    <linearGradient
-                      id="observatoryScanBeam"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop
-                        offset="0%"
-                        stopColor="#A9D8FF"
-                        stopOpacity="0.24"
-                      />
-                      <stop
-                        offset="55%"
-                        stopColor="#6E5BFF"
-                        stopOpacity="0.08"
-                      />
-                      <stop
-                        offset="100%"
-                        stopColor="#080910"
-                        stopOpacity="0"
-                      />
-                    </linearGradient>
-                  </defs>
-
-                  {/* Fine Orbital Rings Centered on the Holographic Radar Sphere (673, 233) */}
-                  <g
-                    style={{
-                      opacity: hasEntered ? 0.85 : 0.2,
-                      transition: "opacity 1.2s ease-out",
-                    }}
+            <div className="relative h-[340px] sm:h-[420px] lg:h-[520px] w-full">
+              {/* Interactive Signal Hotspots Over the Observatory Hologram */}
+              {OBSERVATORY_HOTSPOTS.map((spot) => {
+                const sig = RADAR_SIGNALS[spot.signalIndex]
+                if (!sig) return null
+                const isSelected = sig.id === activeSignal.id
+                return (
+                  <button
+                    key={sig.id}
+                    type="button"
+                    style={{ left: spot.left, top: spot.top }}
+                    onMouseEnter={() => onSelectSignal(sig.id)}
+                    onFocus={() => onSelectSignal(sig.id)}
+                    onClick={() => onSelectSignal(sig.id)}
+                    aria-label={`Сигнал ${sig.alias} (${sig.stateLabel}) — выбрать для предпросмотра`}
+                    className="group absolute z-20 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full cursor-pointer focus-visible:outline-2 focus-visible:outline-[#F4F3FA]"
                   >
-                    <ellipse
-                      cx="673"
-                      cy="233"
-                      rx="195"
-                      ry="82"
-                      transform="rotate(-14 673 233)"
-                      stroke="#A79AFF"
-                      strokeOpacity="0.28"
-                      strokeWidth="0.9"
-                      strokeDasharray="4 6"
-                    />
-                    <ellipse
-                      cx="673"
-                      cy="233"
-                      rx="145"
-                      ry="60"
-                      transform="rotate(18 673 233)"
-                      stroke="#A9D8FF"
-                      strokeOpacity="0.24"
-                      strokeWidth="0.8"
-                    />
-                    <circle
-                      cx="673"
-                      cy="233"
-                      r="112"
-                      stroke="#6E5BFF"
-                      strokeOpacity="0.22"
-                      strokeWidth="0.8"
-                      strokeDasharray="2 5"
-                    />
-                  </g>
-
-                  {/* Slowly Rotating Scanning Beam Around (673, 233) */}
-                  <g
-                    style={{ transformOrigin: "673px 233px" }}
-                    className={
-                      prefersReducedMotion ? "" : "animate-radar-sweep"
-                    }
-                  >
-                    <path
-                      d="M 673 233 L 835 165 A 175 175 0 0 1 815 335 Z"
-                      fill="url(#observatoryScanBeam)"
-                    />
-                    <line
-                      x1="673"
-                      y1="233"
-                      x2="835"
-                      y2="165"
-                      stroke="#A9D8FF"
-                      strokeOpacity="0.5"
-                      strokeWidth="1"
-                    />
-                  </g>
-
-                  {/* Luminous Trajectory Connecting Primary Signal toward Section 03 */}
-                  <path
-                    d="M 673 233 Q 640 390 480 540"
-                    stroke="#A79AFF"
-                    strokeOpacity={0.22 + scrollProgress * 0.45}
-                    strokeWidth="1.2"
-                    strokeDasharray="4 5"
-                  />
-                </svg>
-
-                {/* Interactive Signal Hotspots Over the Observatory Hologram */}
-                {OBSERVATORY_HOTSPOTS.map((spot) => {
-                  const sig = RADAR_SIGNALS[spot.signalIndex]
-                  if (!sig) return null
-                  const isSelected = sig.id === activeSignal.id
-                  return (
-                    <button
-                      key={sig.id}
-                      type="button"
-                      style={{ left: spot.left, top: spot.top }}
-                      onMouseEnter={() => onSelectSignal(sig.id)}
-                      onFocus={() => onSelectSignal(sig.id)}
-                      onClick={() => onSelectSignal(sig.id)}
-                      aria-label={`Сигнал ${sig.alias} (${sig.stateLabel}) — выбрать для предпросмотра`}
-                      className="group absolute z-20 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full cursor-pointer focus-visible:outline-2 focus-visible:outline-[#F4F3FA]"
-                    >
-                      {/* Restrained Pulse Halo */}
-                      <span
-                        style={{ animationDelay: `${spot.delayMs}ms` }}
-                        className={`pointer-events-none absolute inset-1 rounded-full ${
-                          prefersReducedMotion ? "" : "animate-signal-pulse"
-                        } ${
-                          spot.isPrimary || isSelected
-                            ? "bg-[#6E5BFF]/55"
-                            : "bg-[#A9D8FF]/30"
-                        }`}
-                        aria-hidden="true"
-                      />
-                      {/* Core Luminous Dot */}
-                      <span
-                        className={`relative block rounded-full transition-all duration-300 ${
-                          isSelected
-                            ? "h-3.5 w-3.5 bg-[#F4F3FA] shadow-[0_0_18px_4px_#6E5BFF] ring-2 ring-[#A79AFF]"
-                            : spot.isPrimary
-                              ? "h-3 w-3 bg-[#A79AFF] shadow-[0_0_12px_2px_#6E5BFF]"
-                              : "h-2.5 w-2.5 bg-[#A9D8FF]/90 group-hover:bg-[#F4F3FA] group-hover:scale-125"
-                        }`}
-                        aria-hidden="true"
-                      />
-                      {/* Floating Coordinate Tag */}
-                      <span
-                        className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-7 whitespace-nowrap rounded-full px-2.5 py-0.5 font-mono-tech text-[9px] tracking-[0.12em] transition-all duration-300 ${
-                          isSelected
-                            ? "bg-[#14182A]/95 text-[#F4F3FA] border border-[#A79AFF]/60 opacity-100"
-                            : "bg-[#080910]/85 text-[#A1A2B5] border border-[rgba(190,185,255,0.2)] opacity-0 group-hover:opacity-100"
-                        }`}
-                      >
-                        {sig.alias}
-                      </span>
-                    </button>
-                  )
-                })}
-
-                {/* Bottom Caption Bar Inside Observatory Frame */}
-                <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-5 sm:right-5 z-20 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-[#080910]/75 backdrop-blur-md border border-[rgba(190,185,255,0.14)] px-3.5 py-2">
-                  <div className="flex items-center gap-2 font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#F4F3FA]/90">
-                    <Compass
-                      className="h-3.5 w-3.5 text-[#A79AFF]"
+                    {/* Restrained Pulse Halo */}
+                    <span
+                      style={{ animationDelay: `${spot.delayMs}ms` }}
+                      className={`pointer-events-none absolute inset-1 rounded-full ${
+                        prefersReducedMotion ? "" : "animate-signal-pulse"
+                      } ${
+                        spot.isPrimary || isSelected
+                          ? "bg-[#6E5BFF]/55"
+                          : "bg-[#A9D8FF]/30"
+                      }`}
                       aria-hidden="true"
                     />
-                    <span>SCANNING THE UNIVERSE · {activeSignal.coordinates}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 font-mono-tech text-[10px] text-[#A9D8FF]">
-                    <Sparkles className="h-3 w-3" aria-hidden="true" />
-                    <span>ФОКУС НА СИГНАЛЕ: {activeSignal.alias.toUpperCase()}</span>
-                  </div>
+                    {/* Core Luminous Dot */}
+                    <span
+                      className={`relative block rounded-full transition-all duration-300 ${
+                        isSelected
+                          ? "h-3.5 w-3.5 bg-[#F4F3FA] shadow-[0_0_18px_4px_#6E5BFF] ring-2 ring-[#A79AFF]"
+                          : spot.isPrimary
+                            ? "h-3 w-3 bg-[#A79AFF] shadow-[0_0_12px_2px_#6E5BFF]"
+                            : "h-2.5 w-2.5 bg-[#A9D8FF]/90 group-hover:bg-[#F4F3FA] group-hover:scale-125"
+                      }`}
+                      aria-hidden="true"
+                    />
+                    {/* Floating Coordinate Tag */}
+                    <span
+                      className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-7 whitespace-nowrap rounded-full px-2.5 py-0.5 font-mono-tech text-[9px] tracking-[0.12em] transition-all duration-300 ${
+                        isSelected
+                          ? "bg-[#14182A]/95 text-[#F4F3FA] border border-[#A79AFF]/60 opacity-100"
+                          : "bg-[#080910]/85 text-[#A1A2B5] border border-[rgba(190,185,255,0.2)] opacity-0 group-hover:opacity-100"
+                      }`}
+                    >
+                      {sig.alias}
+                    </span>
+                  </button>
+                )
+              })}
+
+              {/* Bottom Caption Bar Floating Over Observatory Radar */}
+              <div className="absolute bottom-2 left-0 right-0 sm:left-6 sm:right-6 z-20 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-[#080910]/72 backdrop-blur-md border border-[rgba(190,185,255,0.16)] px-4 py-2.5">
+                <div className="flex items-center gap-2 font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#F4F3FA]/90">
+                  <Compass
+                    className="h-3.5 w-3.5 text-[#A79AFF]"
+                    aria-hidden="true"
+                  />
+                  <span>SCANNING THE UNIVERSE · {activeSignal.coordinates}</span>
+                </div>
+                <div className="flex items-center gap-1.5 font-mono-tech text-[10px] text-[#A9D8FF]">
+                  <Sparkles className="h-3 w-3" aria-hidden="true" />
+                  <span>ФОКУС НА СИГНАЛЕ: {activeSignal.alias.toUpperCase()}</span>
                 </div>
               </div>
             </div>
