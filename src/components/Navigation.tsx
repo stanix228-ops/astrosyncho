@@ -88,7 +88,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSignalLabel }) => 
         {/* Desktop Navigation */}
         <nav
           aria-label="Основная навигация"
-          className="hidden lg:flex items-center gap-1 xl:gap-2 rounded-full border border-[#A79AFF]/15 bg-[#0D0F18]/75 px-4 py-1.5 backdrop-blur-md"
+          className="hidden lg:flex items-center gap-1 xl:gap-2 rounded-none border border-[#A79AFF]/15 bg-[#0D0F18]/75 px-4 py-1.5 backdrop-blur-md"
         >
           {NAV_LINKS.map((item) => (
             <a
@@ -98,7 +98,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSignalLabel }) => 
                 e.preventDefault()
                 scrollToSection(item.id)
               }}
-              className="group relative whitespace-nowrap px-3 py-1.5 text-xs sm:text-[13px] text-[#A7A6B8] hover:text-[#F4F0FF] transition-colors rounded-full"
+              className="group relative whitespace-nowrap px-3 py-1.5 text-xs sm:text-[13px] text-[#A7A6B8] hover:text-[#F4F0FF] transition-colors rounded-none"
             >
               <span className="font-mono-tech text-[10px] text-[#6E5BFF] mr-1.5 opacity-75 group-hover:opacity-100">
                 {item.num}
@@ -113,7 +113,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSignalLabel }) => 
           <button
             type="button"
             onClick={() => scrollToSection("signal")}
-            className="hidden xl:flex items-center gap-2 rounded-full border border-[#A79AFF]/20 bg-[#14182A]/60 px-3.5 py-1.5 text-[11px] font-mono-tech text-[#A7A6B8] hover:text-[#F4F0FF] hover:border-[#A79AFF]/45 transition-all cursor-pointer"
+            className="hidden xl:flex items-center gap-2 rounded-none border border-[#A79AFF]/20 bg-[#14182A]/60 px-3.5 py-1.5 text-[11px] font-mono-tech text-[#A7A6B8] hover:text-[#F4F0FF] hover:border-[#A79AFF]/45 transition-all cursor-pointer"
             title="Изменить ваш активный сигнал"
           >
             <Radio className="h-3.5 w-3.5 text-[#A79AFF] animate-pulse" aria-hidden="true" />
@@ -136,7 +136,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSignalLabel }) => 
         <button
           type="button"
           onClick={() => setMobileMenuOpen((prev) => !prev)}
-          className="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#A79AFF]/25 bg-[#14182A]/80 text-[#F4F0FF] hover:border-[#A79AFF]/60 transition-colors cursor-pointer"
+          className="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-none border border-[#A79AFF]/25 bg-[#14182A]/80 text-[#F4F0FF] hover:border-[#A79AFF]/60 transition-colors cursor-pointer"
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-nav-drawer"
           aria-label={mobileMenuOpen ? "Закрыть меню навигации" : "Открыть меню навигации"}
@@ -164,7 +164,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeSignalLabel }) => 
                   e.preventDefault()
                   scrollToSection(item.id)
                 }}
-                className="flex items-center justify-between rounded-xl px-4 py-3 text-base text-[#F4F0FF] hover:bg-[#14182A]/70 transition-colors"
+                className="flex items-center justify-between rounded-none px-4 py-3 text-base text-[#F4F0FF] hover:bg-[#14182A]/70 transition-colors"
               >
                 <span>{item.label}</span>
                 <span className="font-mono-tech text-xs text-[#A79AFF]">{item.num}</span>

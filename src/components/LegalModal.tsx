@@ -33,7 +33,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ openDoc, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="cosmic-glass relative w-full max-w-2xl rounded-[28px] border border-[#A79AFF]/35 p-6 sm:p-8 text-[#F4F0FF] shadow-[0_0_80px_-10px_rgba(110,91,255,0.45)] max-h-[85vh] overflow-y-auto"
+        className="cosmic-glass relative w-full max-w-2xl rounded-none border border-[#A79AFF]/35 p-6 sm:p-8 text-[#F4F0FF] shadow-[0_0_80px_-10px_rgba(110,91,255,0.45)] max-h-[85vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#A79AFF]/15">
@@ -57,7 +57,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ openDoc, onClose }) => {
             type="button"
             onClick={onClose}
             aria-label="Закрыть окно"
-            className="rounded-full p-2 text-[#A7A6B8] hover:text-[#F4F0FF] hover:bg-[#14182A] transition-colors cursor-pointer"
+            className="rounded-none p-2 text-[#A7A6B8] hover:text-[#F4F0FF] hover:bg-[#14182A] transition-colors cursor-pointer"
           >
             <X className="h-5 w-5" aria-hidden="true" />
           </button>

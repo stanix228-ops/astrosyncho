@@ -1,5 +1,5 @@
 import React, { useRef } from "react"
-import { Compass, Sparkles, ArrowDownRight } from "lucide-react"
+import { ArrowDownRight } from "lucide-react"
 import { RADAR_SIGNALS, type RadarSignalNode } from "@/data/astroData"
 import {
   usePrefersReducedMotion,
@@ -64,7 +64,7 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
     <section
       id="radar"
       ref={sectionRef}
-      className="relative min-h-[780px] lg:min-h-[860px] py-24 lg:py-32 flex items-center overflow-hidden bg-[#080910] border-t border-[rgba(190,185,255,0.12)]"
+      className="relative min-h-[780px] lg:min-h-[860px] py-24 lg:py-32 flex items-center overflow-hidden bg-[#080910]"
       aria-labelledby="active-signals-heading"
     >
       {/* Full-Bleed Section Background: active-signals.webp + Animated Radar SVG */}
@@ -198,12 +198,12 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
                 SIGNAL DETECTION / 01
               </span>
               <span
-                className="h-1 w-1 rounded-full bg-[#A9D8FF]/60"
+                className="h-1 w-1 bg-[#A9D8FF]/60"
                 aria-hidden="true"
               />
               <span className="inline-flex items-center gap-1.5 font-mono-tech text-[10px] uppercase tracking-[0.18em] text-[#A1A2B5]">
                 <span
-                  className="h-1.5 w-1.5 rounded-full bg-[#A9D8FF] animate-pulse"
+                  className="h-1.5 w-1.5 bg-[#A9D8FF] animate-pulse"
                   aria-hidden="true"
                 />
                 SCANNING THE UNIVERSE
@@ -232,9 +232,9 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
               A NEW CONNECTION MAY BE CLOSER THAN YOU THINK
             </p>
 
-            {/* Understated Illustrative Signal Preview Panel */}
+            {/* Understated Illustrative Signal Preview Panel (Square Box) */}
             <div
-              className="w-full max-w-[470px] rounded-[22px] border border-[rgba(190,185,255,0.18)] bg-[rgba(13,15,24,0.74)] backdrop-blur-xl p-5 sm:p-6 transition-all duration-300 shadow-[0_24px_60px_-20px_rgba(8,9,16,0.85)]"
+              className="w-full max-w-[470px] rounded-none border border-[rgba(190,185,255,0.18)] bg-[rgba(13,15,24,0.74)] backdrop-blur-xl p-5 sm:p-6 transition-all duration-300 shadow-[0_24px_60px_-20px_rgba(8,9,16,0.85)]"
               aria-live="polite"
             >
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-[rgba(190,185,255,0.12)]">
@@ -247,7 +247,7 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
               </div>
 
               <div className="mt-4 flex items-center gap-4">
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-[#A79AFF]/35 bg-[#0D0F18]">
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-none border border-[#A79AFF]/35 bg-[#0D0F18]">
                   <img
                     src={activeSignal.image}
                     alt={activeSignal.imageAlt}
@@ -262,7 +262,7 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
                     <h3 className="font-editorial text-2xl text-[#F4F3FA] truncate">
                       {activeSignal.alias}, {activeSignal.age}
                     </h3>
-                    <span className="rounded-full border border-[#A79AFF]/30 bg-[#6E5BFF]/15 px-2 py-0.5 font-mono-tech text-[9px] uppercase tracking-[0.14em] text-[#A79AFF]">
+                    <span className="rounded-none border border-[#A79AFF]/30 bg-[#6E5BFF]/15 px-2 py-0.5 font-mono-tech text-[9px] uppercase tracking-[0.14em] text-[#A79AFF]">
                       DEMO
                     </span>
                   </div>
@@ -276,7 +276,7 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
                 «{activeSignal.quote}»
               </p>
 
-              {/* Signal Selector Pills */}
+              {/* Signal Selector Square Buttons */}
               <div className="mt-4 pt-3.5 border-t border-[rgba(190,185,255,0.1)] flex flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-1.5">
                   {RADAR_SIGNALS.map((sig) => {
@@ -286,7 +286,7 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
                         key={sig.id}
                         type="button"
                         onClick={() => onSelectSignal(sig.id)}
-                        className={`rounded-full px-2.5 py-1 font-mono-tech text-[10px] tracking-[0.1em] transition-all cursor-pointer border ${
+                        className={`rounded-none px-2.5 py-1 font-mono-tech text-[10px] tracking-[0.1em] transition-all cursor-pointer border ${
                           isSelected
                             ? "border-[#A79AFF] bg-[#6E5BFF]/30 text-[#F4F3FA]"
                             : "border-[rgba(190,185,255,0.14)] bg-[#0D0F18]/70 text-[#A1A2B5] hover:text-[#F4F3FA]"
@@ -301,7 +301,7 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
                 <button
                   type="button"
                   onClick={() => onTestSynchronicity(activeSignal)}
-                  className="inline-flex items-center gap-1 font-mono-tech text-[10px] uppercase tracking-[0.14em] text-[#A79AFF] hover:text-[#F4F3FA] transition-colors cursor-pointer"
+                  className="rounded-none inline-flex items-center gap-1 font-mono-tech text-[10px] uppercase tracking-[0.14em] text-[#A79AFF] hover:text-[#F4F3FA] transition-colors cursor-pointer"
                 >
                   <span>К совпадению</span>
                   <ArrowDownRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -327,7 +327,7 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
                     onFocus={() => onSelectSignal(sig.id)}
                     onClick={() => onSelectSignal(sig.id)}
                     aria-label={`Сигнал ${sig.alias} (${sig.stateLabel}) — выбрать для предпросмотра`}
-                    className="group absolute z-20 -translate-x-1/2 -translate-y-1/2 p-3 rounded-full cursor-pointer focus-visible:outline-2 focus-visible:outline-[#F4F3FA]"
+                    className="group absolute z-20 -translate-x-1/2 -translate-y-1/2 p-3 rounded-none cursor-pointer focus-visible:outline-2 focus-visible:outline-[#F4F3FA]"
                   >
                     {/* Restrained Pulse Halo */}
                     <span
@@ -354,7 +354,7 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
                     />
                     {/* Floating Coordinate Tag */}
                     <span
-                      className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-7 whitespace-nowrap rounded-full px-2.5 py-0.5 font-mono-tech text-[9px] tracking-[0.12em] transition-all duration-300 ${
+                      className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-7 whitespace-nowrap rounded-none px-2.5 py-0.5 font-mono-tech text-[9px] tracking-[0.12em] transition-all duration-300 ${
                         isSelected
                           ? "bg-[#14182A]/95 text-[#F4F3FA] border border-[#A79AFF]/60 opacity-100"
                           : "bg-[#080910]/85 text-[#A1A2B5] border border-[rgba(190,185,255,0.2)] opacity-0 group-hover:opacity-100"
@@ -365,38 +365,9 @@ export const CosmicRadar: React.FC<CosmicRadarProps> = ({
                   </button>
                 )
               })}
-
-              {/* Bottom Caption Bar Floating Over Observatory Radar */}
-              <div className="absolute bottom-2 left-0 right-0 sm:left-6 sm:right-6 z-20 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-[#080910]/72 backdrop-blur-md border border-[rgba(190,185,255,0.16)] px-4 py-2.5">
-                <div className="flex items-center gap-2 font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#F4F3FA]/90">
-                  <Compass
-                    className="h-3.5 w-3.5 text-[#A79AFF]"
-                    aria-hidden="true"
-                  />
-                  <span>SCANNING THE UNIVERSE · {activeSignal.coordinates}</span>
-                </div>
-                <div className="flex items-center gap-1.5 font-mono-tech text-[10px] text-[#A9D8FF]">
-                  <Sparkles className="h-3 w-3" aria-hidden="true" />
-                  <span>ФОКУС НА СИГНАЛЕ: {activeSignal.alias.toUpperCase()}</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Scroll-Linked Luminous Carry-Over Line into Section 03 (Synchronicity) */}
-      <div
-        className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center"
-        aria-hidden="true"
-      >
-        <div
-          className="w-[1.5px] bg-gradient-to-b from-transparent via-[#A79AFF]/65 to-[#A9D8FF]/80 transition-all duration-300"
-          style={{
-            height: `${Math.round(36 + scrollProgress * 44)}px`,
-          }}
-        />
-        <span className="h-2 w-2 rounded-full bg-[#A9D8FF] shadow-[0_0_12px_#A9D8FF]" />
       </div>
     </section>
   )

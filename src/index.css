@@ -200,7 +200,7 @@
   min-width: 0;
   padding: 22px;
   border: 1px solid var(--astro-border);
-  border-radius: 22px;
+  border-radius: 0px;
   background: var(--astro-glass);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -209,7 +209,7 @@
 .connection-showcase__image {
   overflow: hidden;
   aspect-ratio: 4 / 4.6;
-  border-radius: 14px;
+  border-radius: 0px;
   background: var(--astro-bg-secondary);
 }
 
@@ -249,7 +249,7 @@
   margin-top: 16px;
   padding: 13px 16px;
   border: 1px solid var(--astro-border);
-  border-radius: 14px 14px 14px 4px;
+  border-radius: 0px;
   background: rgba(255, 255, 255, 0.035);
   color: var(--astro-text);
   font-size: 0.925rem;
@@ -258,7 +258,7 @@
 
 .connection-showcase__message--reply {
   border-color: rgba(167, 154, 255, 0.24);
-  border-radius: 14px 14px 4px 14px;
+  border-radius: 0px;
   background: rgba(110, 91, 255, 0.11);
 }
 
@@ -307,6 +307,15 @@
   .connection-showcase__conversation {
     padding: 18px;
   }
+}
+
+/* Global Square Theme: sharp corners for buttons, inputs, controls, and glass containers */
+button,
+[role="button"],
+input,
+select,
+textarea {
+  border-radius: 0px !important;
 }
 
 /* Custom Focus Ring for Accessibility */

@@ -46,7 +46,7 @@ export const Privacy: React.FC<PrivacyProps> = ({ onOpenLegal }) => {
     <section
       id="privacy"
       ref={sectionRef}
-      className="relative py-24 lg:py-32 overflow-hidden bg-[#080910] border-t border-[rgba(190,185,255,0.12)]"
+      className="relative py-24 lg:py-32 overflow-hidden bg-[#080910]"
       aria-labelledby="privacy-heading"
     >
       {/* Calm, Restrained Ambient Background Light */}
@@ -86,7 +86,7 @@ export const Privacy: React.FC<PrivacyProps> = ({ onOpenLegal }) => {
               себе раскрываешь и как управляешь своим профилем.
             </p>
 
-            <div className="w-full max-w-[480px] rounded-2xl border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.62)] backdrop-blur-md p-5">
+            <div className="w-full max-w-[480px] rounded-none border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.62)] backdrop-blur-md p-5">
               <span className="block font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#A9D8FF]">
                 ПРОЗРАЧНОСТЬ И КОНТРОЛЬ
               </span>
@@ -101,7 +101,7 @@ export const Privacy: React.FC<PrivacyProps> = ({ onOpenLegal }) => {
               <button
                 type="button"
                 onClick={() => onOpenLegal?.("privacy")}
-                className="inline-flex items-center gap-2 rounded-full border border-[rgba(190,185,255,0.24)] bg-[#14182A]/75 px-5 py-2.5 font-sans text-xs sm:text-sm text-[#F4F3FA] hover:border-[#A79AFF] transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-none border border-[rgba(190,185,255,0.24)] bg-[#14182A]/75 px-5 py-2.5 font-sans text-xs sm:text-sm text-[#F4F3FA] hover:border-[#A79AFF] transition-colors cursor-pointer"
               >
                 <FileText
                   className="h-4 w-4 text-[#A79AFF]"
@@ -134,10 +134,10 @@ export const Privacy: React.FC<PrivacyProps> = ({ onOpenLegal }) => {
                 return (
                   <div
                     key={item.title}
-                    className="flex flex-col justify-between gap-4 rounded-[22px] border border-[rgba(190,185,255,0.14)] bg-[rgba(19,21,38,0.58)] p-5 sm:p-6 transition-colors hover:border-[rgba(190,185,255,0.26)]"
+                    className="flex flex-col justify-between gap-4 rounded-none border border-[rgba(190,185,255,0.14)] bg-[rgba(19,21,38,0.58)] p-5 sm:p-6 transition-colors hover:border-[rgba(190,185,255,0.26)]"
                   >
                     <div className="flex items-center justify-between gap-3">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(190,185,255,0.2)] bg-[#14182A]/80 text-[#A79AFF]">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-none border border-[rgba(190,185,255,0.2)] bg-[#14182A]/80 text-[#A79AFF]">
                         <Icon className="h-4 w-4" aria-hidden="true" />
                       </div>
                       <span className="font-mono-tech text-[9px] uppercase tracking-[0.14em] text-[#A1A2B5]/80">

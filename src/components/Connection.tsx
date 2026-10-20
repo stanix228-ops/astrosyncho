@@ -55,7 +55,7 @@ export const Connection: React.FC<ConnectionShowcaseProps> = ({
     <section
       id="connection"
       ref={sectionRef}
-      className="relative py-24 lg:py-32 overflow-hidden bg-[#080910] border-t border-[rgba(190,185,255,0.12)]"
+      className="relative py-24 lg:py-32 overflow-hidden bg-[#080910]"
       aria-labelledby="connection-heading"
     >
       {/* Atmospheric Backdrop: connection-hero.webp */}
@@ -132,7 +132,7 @@ export const Connection: React.FC<ConnectionShowcaseProps> = ({
                   <span className="connection-showcase__eyebrow">
                     SIGNAL DISCOVERED
                   </span>
-                  <span className="rounded-full border border-[rgba(190,185,255,0.18)] bg-[#0D0F18]/80 px-2.5 py-0.5 font-mono-tech text-[9px] uppercase tracking-[0.14em] text-[#A1A2B5]">
+                  <span className="rounded-none border border-[rgba(190,185,255,0.18)] bg-[#0D0F18]/80 px-2.5 py-0.5 font-mono-tech text-[9px] uppercase tracking-[0.14em] text-[#A1A2B5]">
                     ДЕМО-ПРОФИЛЬ
                   </span>
                 </div>
@@ -141,10 +141,10 @@ export const Connection: React.FC<ConnectionShowcaseProps> = ({
                 <p>{subtitle}</p>
 
                 <div className="mt-4 pt-3 border-t border-[rgba(190,185,255,0.12)] flex flex-wrap gap-2">
-                  <span className="rounded-full border border-[rgba(190,185,255,0.16)] bg-[#14182A]/75 px-3 py-1 font-sans text-xs text-[#F4F3FA]/90">
+                  <span className="rounded-none border border-[rgba(190,185,255,0.16)] bg-[#14182A]/75 px-3 py-1 font-sans text-xs text-[#F4F3FA]/90">
                     Интересы и эстетика
                   </span>
-                  <span className="rounded-full border border-[rgba(190,185,255,0.16)] bg-[#14182A]/75 px-3 py-1 font-sans text-xs text-[#F4F3FA]/90">
+                  <span className="rounded-none border border-[rgba(190,185,255,0.16)] bg-[#14182A]/75 px-3 py-1 font-sans text-xs text-[#F4F3FA]/90">
                     Вечерний ритм
                   </span>
                 </div>

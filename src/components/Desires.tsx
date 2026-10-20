@@ -86,7 +86,7 @@ export const Desires: React.FC<DesiresProps> = () => {
     <section
       id="desires"
       ref={sectionRef}
-      className="relative py-24 lg:py-32 overflow-hidden bg-[#080910] border-t border-[rgba(190,185,255,0.12)]"
+      className="relative py-24 lg:py-32 overflow-hidden bg-[#080910]"
       aria-labelledby="desires-heading"
     >
       {/* Restrained Lavender Light Source */}
@@ -149,7 +149,7 @@ export const Desires: React.FC<DesiresProps> = () => {
                 {PREFERENCE_CATEGORIES.map((item) => (
                   <div
                     key={item.title}
-                    className="rounded-[18px] border border-[rgba(190,185,255,0.14)] bg-[rgba(19,21,38,0.58)] p-4 transition-colors duration-300 hover:border-[#A79AFF]/40"
+                    className="rounded-none border border-[rgba(190,185,255,0.14)] bg-[rgba(19,21,38,0.58)] p-4 transition-colors duration-300 hover:border-[#A79AFF]/40"
                   >
                     <div className="flex items-center gap-2">
                       <span
@@ -169,7 +169,7 @@ export const Desires: React.FC<DesiresProps> = () => {
             </div>
 
             {/* Active Editorial Portrait Note */}
-            <div className="w-full rounded-[20px] border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.68)] backdrop-blur-xl p-4 sm:p-5">
+            <div className="w-full rounded-none border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.68)] backdrop-blur-xl p-4 sm:p-5">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#A9D8FF]">
                   {activePortrait.categoryLabel}
@@ -198,7 +198,7 @@ export const Desires: React.FC<DesiresProps> = () => {
                   onMouseEnter={() =>
                     setActivePortraitId(EDITORIAL_PORTRAITS[0].id)
                   }
-                  className={`group relative block w-full text-left rounded-[24px] overflow-hidden border transition-all duration-500 cursor-pointer bg-[#0D0F18] ${
+                  className={`group relative block w-full text-left rounded-none overflow-hidden border transition-all duration-500 cursor-pointer bg-[#0D0F18] ${
                     activePortrait.id === EDITORIAL_PORTRAITS[0].id
                       ? "border-[#A79AFF]/60 shadow-[0_24px_70px_-20px_rgba(110,91,255,0.38)]"
                       : "border-[rgba(190,185,255,0.16)] hover:border-[#A79AFF]/40"
@@ -219,7 +219,7 @@ export const Desires: React.FC<DesiresProps> = () => {
                     aria-hidden="true"
                   />
                   {/* Translucent Interface Overlay */}
-                  <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-[rgba(190,185,255,0.18)] bg-[rgba(19,21,38,0.72)] backdrop-blur-md p-4">
+                  <div className="absolute bottom-4 left-4 right-4 rounded-none border border-[rgba(190,185,255,0.18)] bg-[rgba(19,21,38,0.72)] backdrop-blur-md p-4">
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#A79AFF]">
                         {EDITORIAL_PORTRAITS[0].categoryLabel}
@@ -246,7 +246,7 @@ export const Desires: React.FC<DesiresProps> = () => {
                       type="button"
                       onClick={() => setActivePortraitId(portrait.id)}
                       onMouseEnter={() => setActivePortraitId(portrait.id)}
-                      className={`group relative block w-full text-left rounded-[22px] overflow-hidden border transition-all duration-500 cursor-pointer bg-[#0D0F18] ${
+                      className={`group relative block w-full text-left rounded-none overflow-hidden border transition-all duration-500 cursor-pointer bg-[#0D0F18] ${
                         isSelected
                           ? "border-[#A79AFF]/60 shadow-[0_20px_55px_-18px_rgba(110,91,255,0.35)]"
                           : "border-[rgba(190,185,255,0.16)] hover:border-[#A79AFF]/40"
@@ -266,7 +266,7 @@ export const Desires: React.FC<DesiresProps> = () => {
                         className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080910]/90 via-transparent to-transparent"
                         aria-hidden="true"
                       />
-                      <div className="absolute bottom-3 left-3 right-3 rounded-xl border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.72)] backdrop-blur-md px-3.5 py-2.5">
+                      <div className="absolute bottom-3 left-3 right-3 rounded-none border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.72)] backdrop-blur-md px-3.5 py-2.5">
                         <span className="block font-mono-tech text-[9px] uppercase tracking-[0.14em] text-[#A9D8FF] truncate">
                           {portrait.categoryLabel}
                         </span>

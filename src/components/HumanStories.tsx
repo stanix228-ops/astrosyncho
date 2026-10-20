@@ -56,7 +56,7 @@ export const HumanStories: React.FC = () => {
     <section
       id="stories"
       ref={sectionRef}
-      className="relative scroll-mt-20 py-24 lg:py-36 bg-[#080910] border-t border-[#A79AFF]/10 overflow-hidden"
+      className="relative scroll-mt-20 py-24 lg:py-36 bg-[#080910] overflow-hidden"
       aria-labelledby="stories-heading"
     >
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10 space-y-20 lg:space-y-28">
@@ -91,7 +91,7 @@ export const HumanStories: React.FC = () => {
         {/* Spread 01: Wide Architectural Cinema Frame + Interactive Perspective Switcher */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-7 relative group">
-            <div className="relative rounded-[28px] overflow-hidden border border-[#A79AFF]/25 bg-[#0D0F18] shadow-[0_0_70px_-20px_rgba(110,91,255,0.28)]">
+            <div className="relative rounded-none overflow-hidden border border-[#A79AFF]/25 bg-[#0D0F18] shadow-[0_0_70px_-20px_rgba(110,91,255,0.28)]">
               <div className="aspect-[16/10] w-full overflow-hidden">
                 <img
                   src="./images/human-connection.webp"
@@ -128,7 +128,7 @@ export const HumanStories: React.FC = () => {
                     role="tab"
                     aria-selected={active}
                     onClick={() => setActivePerspectiveId(item.id)}
-                    className={`rounded-full px-3.5 py-1.5 text-xs font-mono-tech transition-all cursor-pointer border ${
+                    className={`rounded-none px-3.5 py-1.5 text-xs font-mono-tech transition-all cursor-pointer border ${
                       active
                         ? "bg-[#6E5BFF] text-[#F4F0FF] border-[#A79AFF]/60"
                         : "bg-[#0D0F18] text-[#A7A6B8] border-[#A79AFF]/20 hover:text-[#F4F0FF]"
@@ -140,7 +140,7 @@ export const HumanStories: React.FC = () => {
               })}
             </div>
 
-            <div className="cosmic-glass rounded-[26px] p-6 sm:p-8 border border-[#A79AFF]/20 space-y-4">
+            <div className="cosmic-glass rounded-none p-6 sm:p-8 border border-[#A79AFF]/20 space-y-4">
               <div className="flex items-center gap-2 text-xs font-mono-tech text-[#A79AFF]">
                 <Eye className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>{activeStory.timecode}</span>
@@ -182,7 +182,7 @@ export const HumanStories: React.FC = () => {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#A79AFF]/15 bg-[#0D0F18]/75 p-5 flex items-center justify-between gap-4">
+            <div className="rounded-none border border-[#A79AFF]/15 bg-[#0D0F18]/75 p-5 flex items-center justify-between gap-4">
               <div>
                 <span className="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-[#A79AFF] block">
                   СВЯЗУЮЩИЙ КОНТУР ОРБИТЫ
@@ -224,7 +224,7 @@ export const HumanStories: React.FC = () => {
 
             {/* Portrait 1: Distinct Editorial Man Portrait (story-portrait-man.webp) */}
             <figure
-              className={`group relative rounded-[26px] overflow-hidden border border-[#A79AFF]/25 bg-[#0D0F18] transition-all duration-700 ${
+              className={`group relative rounded-none overflow-hidden border border-[#A79AFF]/25 bg-[#0D0F18] transition-all duration-700 ${
                 hasEntered ? "opacity-100 translate-y-0" : "opacity-90 translate-y-3"
               }`}
             >
@@ -248,7 +248,7 @@ export const HumanStories: React.FC = () => {
 
             {/* Portrait 2: Distinct Editorial Woman Portrait (story-portrait-woman.webp) */}
             <figure
-              className={`group relative sm:mt-10 rounded-[26px] overflow-hidden border border-[#A79AFF]/25 bg-[#0D0F18] transition-all duration-700 ${
+              className={`group relative sm:mt-10 rounded-none overflow-hidden border border-[#A79AFF]/25 bg-[#0D0F18] transition-all duration-700 ${
                 hasEntered ? "opacity-100 translate-y-0" : "opacity-90 translate-y-4"
               }`}
             >

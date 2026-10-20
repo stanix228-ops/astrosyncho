@@ -16,7 +16,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenLegal }) => {
 
   return (
     <footer
-      className="relative bg-[#080910] border-t border-[#A79AFF]/15 pt-20 pb-12 overflow-hidden"
+      className="relative bg-[#080910] pt-20 pb-12 overflow-hidden"
       aria-label="Подвал сайта AstroSyncho"
     >
       {/* Delicate Orbital Animation in Footer Backdrop */}
@@ -144,7 +144,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenLegal }) => {
           <button
             type="button"
             onClick={() => scrollTo("hero")}
-            className="inline-flex items-center gap-2 rounded-full border border-[#A79AFF]/25 bg-[#14182A]/60 px-4 py-2 text-[#F4F0FF] hover:border-[#A79AFF] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-none border border-[#A79AFF]/25 bg-[#14182A]/60 px-4 py-2 text-[#F4F0FF] hover:border-[#A79AFF] transition-colors cursor-pointer"
           >
             <span>НАВЕРХ К ЗЕНИТУ</span>
             <ArrowUp className="h-3.5 w-3.5 text-[#A79AFF]" aria-hidden="true" />

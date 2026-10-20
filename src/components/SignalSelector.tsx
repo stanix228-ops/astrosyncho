@@ -88,7 +88,7 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
   return (
     <section
       id="signal"
-      className="relative scroll-mt-20 py-24 lg:py-32 bg-[#0D0F18] border-t border-[#A79AFF]/10 overflow-hidden"
+      className="relative scroll-mt-20 py-24 lg:py-32 bg-[#0D0F18] overflow-hidden"
       aria-labelledby="signal-heading"
     >
       {/* Dynamic Ambient Aura matching current signal */}
@@ -141,7 +141,7 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
                 role="tab"
                 aria-selected={isSelected}
                 onClick={() => onSelectStateKey(state.key)}
-                className={`group flex flex-col justify-between rounded-2xl p-4 sm:p-5 text-left transition-all duration-300 cursor-pointer border ${
+                className={`group flex flex-col justify-between rounded-none p-4 sm:p-5 text-left transition-all duration-300 cursor-pointer border ${
                   isSelected
                     ? "bg-[#14182A] border-[#A79AFF] shadow-[0_0_32px_-6px_rgba(110,91,255,0.45)]"
                     : "bg-[#080910]/80 border-[#A79AFF]/15 hover:border-[#A79AFF]/45 hover:bg-[#14182A]/45"
@@ -178,7 +178,7 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
         {/* Synthesizer Visualizer + State Details */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left 7 Cols: Live Harmonic Wave, Reconfigurable Orbits & Igniting Stars */}
-          <div className="lg:col-span-7 cosmic-glass rounded-[30px] p-6 sm:p-8 border border-[#A79AFF]/25 flex flex-col justify-between">
+          <div className="lg:col-span-7 cosmic-glass rounded-none p-6 sm:p-8 border border-[#A79AFF]/25 flex flex-col justify-between">
             <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
               <div className="flex items-center gap-2">
                 <Radio className="h-4 w-4 text-[#A79AFF]" aria-hidden="true" />
@@ -190,7 +190,7 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
             </div>
 
             {/* Interactive SVG Harmonic Waveform + Igniting Constellation Stars + Tilting Orbits */}
-            <div className="relative w-full aspect-[16/8.5] rounded-2xl bg-[#080910] border border-[#A79AFF]/15 overflow-hidden flex items-center justify-center my-2">
+            <div className="relative w-full aspect-[16/8.5] rounded-none bg-[#080910] border border-[#A79AFF]/15 overflow-hidden flex items-center justify-center my-2">
               <svg
                 className="w-full h-full"
                 viewBox="0 0 600 260"
@@ -341,7 +341,7 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
                 max={100}
                 value={opennessLevel}
                 onChange={(e) => setOpennessLevel(Number(e.target.value))}
-                className="w-full h-2 rounded-lg appearance-none bg-[#14182A] accent-[#6E5BFF] cursor-pointer"
+                className="w-full h-2 rounded-none appearance-none bg-[#14182A] accent-[#6E5BFF] cursor-pointer"
               />
               <p className="text-[11px] text-[#A7A6B8]/75 font-mono-tech">
                 * Концептуальная демонстрация настройки личного сигнала (выбор работает локально в браузере и не создаёт реального сохранения на сервере).
@@ -350,7 +350,7 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
           </div>
 
           {/* Right 5 Cols: Selected State Description & Beta Link */}
-          <div className="lg:col-span-5 cosmic-glass rounded-[30px] p-6 sm:p-8 border border-[#A79AFF]/25 flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-5 cosmic-glass rounded-none p-6 sm:p-8 border border-[#A79AFF]/25 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <Badge variant="default">АКТИВНЫЙ РЕЖИМ</Badge>

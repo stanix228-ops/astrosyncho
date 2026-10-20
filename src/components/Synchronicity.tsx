@@ -94,7 +94,7 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({
     <section
       id="synchronicity"
       ref={sectionRef}
-      className="relative py-24 lg:py-32 overflow-hidden bg-[#080910] border-t border-[rgba(190,185,255,0.12)]"
+      className="relative py-24 lg:py-32 overflow-hidden bg-[#080910]"
       aria-labelledby="synchronicity-heading"
     >
       {/* Subtle Dual Ambient Illumination (Lavender Left, Icy-Blue Right) */}
@@ -148,7 +148,7 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({
         <div className="mt-12 lg:mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left 7 Cols: Original Synchronicity Key Visual + Refined Dual-Orbit SVG Motion */}
           <div className="lg:col-span-7">
-            <div className="relative rounded-[26px] overflow-hidden border border-[rgba(190,185,255,0.18)] bg-[#0D0F18] shadow-[0_24px_80px_-20px_rgba(8,9,16,0.9)]">
+            <div className="relative rounded-none overflow-hidden border border-[rgba(190,185,255,0.18)] bg-[#0D0F18] shadow-[0_24px_80px_-20px_rgba(8,9,16,0.9)]">
               <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden">
                 <img
                   src="./images/synchronicity.webp"
@@ -275,7 +275,7 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({
                 </svg>
 
                 {/* Bottom Closing Phrase Inside Visual Frame */}
-                <div className="absolute bottom-3 left-3 right-3 sm:bottom-5 sm:left-6 sm:right-6 z-20 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-[#080910]/78 backdrop-blur-md border border-[rgba(190,185,255,0.14)] px-4 py-2.5">
+                <div className="absolute bottom-3 left-3 right-3 sm:bottom-5 sm:left-6 sm:right-6 z-20 flex flex-wrap items-center justify-between gap-2 rounded-none bg-[#080910]/78 backdrop-blur-md border border-[rgba(190,185,255,0.14)] px-4 py-2.5">
                   <span className="font-editorial italic text-lg sm:text-xl text-[#F4F3FA]">
                     «Две истории. Одна точка притяжения».
                   </span>
@@ -304,7 +304,7 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({
                     role="tab"
                     aria-selected={isSelected}
                     onClick={() => setActiveCategoryId(cat.id)}
-                    className={`text-left rounded-[18px] p-4 transition-all duration-300 cursor-pointer border ${
+                    className={`text-left rounded-none p-4 transition-all duration-300 cursor-pointer border ${
                       isSelected
                         ? "bg-[#14182A]/90 border-[#A79AFF]/55 shadow-[0_0_28px_-8px_rgba(110,91,255,0.35)]"
                         : "bg-[rgba(19,21,38,0.52)] border-[rgba(190,185,255,0.12)] hover:border-[rgba(190,185,255,0.28)]"
@@ -336,7 +336,7 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({
             {/* Active Category Detail & Illustrative Examples */}
             <div
               role="tabpanel"
-              className="rounded-[22px] border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.68)] backdrop-blur-xl p-6 space-y-4"
+              className="rounded-none border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.68)] backdrop-blur-xl p-6 space-y-4"
             >
               <div className="flex items-center justify-between gap-2">
                 <span className="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-[#A79AFF]">

@@ -118,7 +118,7 @@ export const BetaSignup: React.FC<BetaSignupProps> = ({
   return (
     <section
       id="beta"
-      className="relative scroll-mt-20 py-24 lg:py-36 bg-[#080910] border-t border-[#A79AFF]/15 overflow-hidden"
+      className="relative scroll-mt-20 py-24 lg:py-36 bg-[#080910] overflow-hidden"
       aria-labelledby="beta-heading"
     >
       {/* Cosmic Environment Background Layer */}
@@ -171,8 +171,8 @@ export const BetaSignup: React.FC<BetaSignupProps> = ({
             </p>
 
             {/* Early User Welcome Gift Card */}
-            <div className="rounded-2xl bg-[#14182A]/75 border border-[#A79AFF]/30 p-5 flex items-start gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#6E5BFF]/20 border border-[#A79AFF]/40 text-[#A79AFF]">
+            <div className="rounded-none bg-[#14182A]/75 border border-[#A79AFF]/30 p-5 flex items-start gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-none bg-[#6E5BFF]/20 border border-[#A79AFF]/40 text-[#A79AFF]">
                 <Gift className="h-5 w-5" aria-hidden="true" />
               </div>
               <div className="space-y-1">
@@ -191,7 +191,7 @@ export const BetaSignup: React.FC<BetaSignupProps> = ({
             </div>
 
             {/* Clear Explanation of Next Steps & Backend Integration Point */}
-            <div className="cosmic-glass rounded-[26px] p-6 border border-[#A79AFF]/20 space-y-4">
+            <div className="cosmic-glass rounded-none p-6 border border-[#A79AFF]/20 space-y-4">
               <h3 className="font-mono-tech text-xs uppercase tracking-[0.18em] text-[#A79AFF]">
                 СЛЕДУЮЩИЙ ШАГ И СТАТУС ИНТЕГРАЦИИ:
               </h3>
@@ -231,7 +231,7 @@ export const BetaSignup: React.FC<BetaSignupProps> = ({
 
           {/* Right 7 Cols: Form UI + Explicit Integration Point Inspector */}
           <div className="lg:col-span-7">
-            <div className="cosmic-glass rounded-[32px] p-6 sm:p-10 border border-[#A79AFF]/30 shadow-[0_0_80px_-20px_rgba(110,91,255,0.35)]">
+            <div className="cosmic-glass rounded-none p-6 sm:p-10 border border-[#A79AFF]/30 shadow-[0_0_80px_-20px_rgba(110,91,255,0.35)]">
               <form
                 onSubmit={handleSubmit}
                 noValidate
@@ -257,7 +257,7 @@ export const BetaSignup: React.FC<BetaSignupProps> = ({
                     tabIndex={-1}
                     role="alert"
                     aria-live="assertive"
-                    className="rounded-2xl bg-[#2A121E]/90 border border-rose-400/50 p-4 text-xs text-rose-100 space-y-1.5"
+                    className="rounded-none bg-[#2A121E]/90 border border-rose-400/50 p-4 text-xs text-rose-100 space-y-1.5"
                   >
                     <div className="flex items-center gap-2 font-mono-tech uppercase tracking-wider text-rose-300">
                       <AlertTriangle
@@ -380,7 +380,7 @@ export const BetaSignup: React.FC<BetaSignupProps> = ({
                             onSelectStateKey(st.key)
                             setPreparedPayload(null)
                           }}
-                          className={`rounded-xl px-3 py-2.5 text-xs font-mono-tech transition-all cursor-pointer border ${
+                          className={`rounded-none px-3 py-2.5 text-xs font-mono-tech transition-all cursor-pointer border ${
                             active
                               ? "bg-[#6E5BFF] text-[#F4F0FF] border-[#A79AFF]"
                               : "bg-[#080910]/85 text-[#A7A6B8] border-[#A79AFF]/20 hover:text-[#F4F0FF]"
@@ -412,7 +412,7 @@ export const BetaSignup: React.FC<BetaSignupProps> = ({
                       }))
                       setPreparedPayload(null)
                     }}
-                    className="flex h-12 w-full rounded-xl bg-[#0D0F18]/90 border border-[#A79AFF]/20 px-4 py-3 text-sm text-[#F4F0FF] focus-visible:border-[#A79AFF] focus-visible:outline-none"
+                    className="flex h-12 w-full rounded-none bg-[#0D0F18]/90 border border-[#A79AFF]/20 px-4 py-3 text-sm text-[#F4F0FF] focus-visible:border-[#A79AFF] focus-visible:outline-none"
                   >
                     <option value="22:00 — 02:00 · Ночной эфир">
                       22:00 — 02:00 · Ночной эфир и полутона
@@ -470,7 +470,7 @@ export const BetaSignup: React.FC<BetaSignupProps> = ({
                           }))
                         }
                       }}
-                      className="mt-1 h-4 w-4 rounded border-[#A79AFF]/40 bg-[#080910] accent-[#6E5BFF] cursor-pointer"
+                      className="mt-1 h-4 w-4 rounded-none border-[#A79AFF]/40 bg-[#080910] accent-[#6E5BFF] cursor-pointer"
                     />
                     <span className="text-xs text-[#A7A6B8] font-light leading-relaxed">
                       Я ознакомлен с концепцией проекта AstroSyncho и соглашаюсь
@@ -513,7 +513,7 @@ export const BetaSignup: React.FC<BetaSignupProps> = ({
                   <div
                     role="status"
                     aria-live="polite"
-                    className="rounded-2xl bg-[#080910] border border-[#A79AFF]/40 p-5 space-y-3 animate-hero-reveal"
+                    className="rounded-none bg-[#080910] border border-[#A79AFF]/40 p-5 space-y-3 animate-hero-reveal"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <span className="inline-flex items-center gap-2 font-mono-tech text-xs text-[#A79AFF]">
@@ -540,7 +540,7 @@ export const BetaSignup: React.FC<BetaSignupProps> = ({
                       :
                     </p>
 
-                    <pre className="rounded-xl bg-[#0D0F18] border border-[#A79AFF]/20 p-3.5 text-[11px] font-mono-tech text-[#F4F0FF]/90 overflow-x-auto">
+                    <pre className="rounded-none bg-[#0D0F18] border border-[#A79AFF]/20 p-3.5 text-[11px] font-mono-tech text-[#F4F0FF]/90 overflow-x-auto">
                       {JSON.stringify(
                         {
                           alias: preparedPayload.payload.alias,

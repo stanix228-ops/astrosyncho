@@ -17,10 +17,10 @@ const buttonVariants = cva(
           "bg-transparent text-[#F4F0FF] border border-[#A79AFF]/25 hover:border-[#A79AFF]/65 hover:bg-[#6E5BFF]/10",
       },
       size: {
-        default: "h-12 px-6 py-3 rounded-full tracking-wide",
-        sm: "h-10 px-4 py-2 rounded-full text-xs tracking-wider uppercase font-mono-tech",
-        lg: "h-14 px-8 py-4 rounded-full text-base tracking-wide",
-        icon: "h-11 w-11 rounded-full",
+        default: "h-12 px-6 py-3 rounded-none tracking-wide",
+        sm: "h-10 px-4 py-2 rounded-none text-xs tracking-wider uppercase font-mono-tech",
+        lg: "h-14 px-8 py-4 rounded-none text-base tracking-wide",
+        icon: "h-11 w-11 rounded-none",
       },
     },
     defaultVariants: {
