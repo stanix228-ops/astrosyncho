@@ -3,10 +3,11 @@ import { Navigation } from "@/components/Navigation"
 import { Hero } from "@/components/Hero"
 import { CosmicRadar } from "@/components/CosmicRadar"
 import { Synchronicity } from "@/components/Synchronicity"
-import { HumanStories } from "@/components/HumanStories"
-import { SignalSelector } from "@/components/SignalSelector"
 import { Desires } from "@/components/Desires"
+import { Connection } from "@/components/Connection"
 import { Privacy } from "@/components/Privacy"
+import { SignalSelector } from "@/components/SignalSelector"
+import { HumanStories } from "@/components/HumanStories"
 import { BetaSignup } from "@/components/BetaSignup"
 import { Footer } from "@/components/Footer"
 import { LegalModal, type LegalDocType } from "@/components/LegalModal"
@@ -47,12 +48,6 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-[#080910] text-[#F4F0FF] relative selection:bg-[#6E5BFF]/35 selection:text-[#F4F0FF]">
-      {/* Subtle Film Grain Overlay */}
-      <div
-        className="pointer-events-none fixed inset-0 z-40 film-grain opacity-60"
-        aria-hidden="true"
-      />
-
       {/* Top Navigation */}
       <Navigation activeSignalLabel={userSignalState} />
 
@@ -61,38 +56,41 @@ export function App() {
         {/* 01. HERO */}
         <Hero onSelectRadarSignal={(id) => setSelectedSignalId(id)} />
 
-        {/* 02. SIGNAL DETECTED (COSMIC RADAR) */}
+        {/* 02. ACTIVE SIGNALS (SIGNAL DETECTION / 01) */}
         <CosmicRadar
           selectedSignalId={selectedSignalId}
           onSelectSignal={setSelectedSignalId}
           onTestSynchronicity={handleTestSynchronicity}
         />
 
-        {/* 03. SYNCHRONICITY & GALAXY BUILDER */}
+        {/* 03. SYNCHRONICITY (SYNCHRONICITY / 02) */}
         <Synchronicity
           partnerSignal={activeRadarSignal}
           onSelectSignal={setSelectedSignalId}
         />
 
-        {/* 04. HUMAN STORIES */}
-        <HumanStories />
-
-        {/* 05. YOUR SIGNAL */}
-        <SignalSelector
-          selectedStateKey={userSignalState}
-          onSelectStateKey={setUserSignalState}
-        />
-
-        {/* 06. DESIRES / TEMPTATIONS */}
+        {/* 04. DESIRES (DESIRES / 03) */}
         <Desires
           selectedDesireIds={selectedDesireIds}
           onToggleDesire={handleToggleDesire}
         />
 
-        {/* 07. PRIVACY */}
-        <Privacy />
+        {/* 05. CONNECTION (CONNECTION / 04) */}
+        <Connection />
 
-        {/* 08. OPEN BETA */}
+        {/* 06. PRIVACY (PRIVACY / 05) */}
+        <Privacy onOpenLegal={(doc) => setOpenLegalDoc(doc)} />
+
+        {/* 07. YOUR SIGNAL */}
+        <SignalSelector
+          selectedStateKey={userSignalState}
+          onSelectStateKey={setUserSignalState}
+        />
+
+        {/* 08. HUMAN STORIES */}
+        <HumanStories />
+
+        {/* 09. OPEN BETA */}
         <BetaSignup
           selectedStateKey={userSignalState}
           onSelectStateKey={setUserSignalState}
@@ -100,7 +98,7 @@ export function App() {
         />
       </main>
 
-      {/* 09. LARGE FOOTER */}
+      {/* 10. LARGE FOOTER */}
       <Footer onOpenLegal={(doc) => setOpenLegalDoc(doc)} />
 
       {/* Legal & Concept Disclosure Modal */}

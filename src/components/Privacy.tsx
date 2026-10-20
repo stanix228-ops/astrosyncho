@@ -1,316 +1,179 @@
-import React, { useState } from "react"
-import { Shield, Clock, EyeOff, Lock, Sliders, AlertCircle } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import React, { useRef } from "react"
+import { Sliders, Database, UserX, ShieldAlert, FileText } from "lucide-react"
+import {
+  usePrefersReducedMotion,
+  useInView,
+} from "@/hooks/useMotionPreferences"
+import type { LegalDocType } from "@/components/LegalModal"
 
-interface PrivacyControlItem {
-  id: string
-  title: string
-  subtitle: string
-  description: string
-  statusBadge: string
-  icon: React.ComponentType<{ className?: string }>
+interface PrivacyProps {
+  onOpenLegal?: (doc: LegalDocType) => void
 }
 
-const PRIVACY_CONTROLS: PrivacyControlItem[] = [
+const PRIVACY_ITEMS = [
   {
-    id: "ephemeral-24h",
-    title: "Исчезающие сообщения (24 часа)",
-    subtitle: "Запланированный механизм автоматического затухания диалога",
-    description:
-      "В проектируемой архитектуре AstroSyncho вы можете включить 24-часовой цикл жизни переписки и голосовых заметок, чтобы история общения не накапливалась бессрочно.",
-    statusBadge: "КОНЦЕПТУАЛЬНАЯ ФУНКЦИЯ · 24H LIFECYCLE",
-    icon: Clock,
-  },
-  {
-    id: "orbital-visibility",
-    title: "Защитная орбита и скрытие из общего радара",
-    subtitle: "Второстепенные сигналы гаснут — доступ только по вашему импульсу",
-    description:
-      "В режиме защищённой орбиты ваш профиль исчезает из общего сканирования. Пространство вокруг вас становится тише, а связь возможна только с выбранным вами сигналом.",
-    statusBadge: "КОНЦЕПТУАЛЬНАЯ ФУНКЦИЯ · PROTECTIVE ORBIT",
-    icon: EyeOff,
-  },
-  {
-    id: "mutual-consent",
-    title: "Взаимодействие только по двойному резонансу",
-    subtitle: "Никаких непрошеных сообщений и мгновенное свёртывание орбиты",
-    description:
-      "Личный диалог открывается исключительно при взаимном отклике двух людей. В любой момент орбиту можно закрыть в одно касание.",
-    statusBadge: "КОНЦЕПТУАЛЬНАЯ ФУНКЦИЯ · MUTUAL GATE",
-    icon: Lock,
-  },
-  {
-    id: "content-boundaries",
-    title: "Деликатный экран для личных медиафайлов",
-    subtitle: "Превью под вуалью размытия до явного открытия получателем",
-    description:
-      "Фотографии и видео в личном чате по умолчанию скрыты мягкой оптической вуалью и не индексируются внешними системами.",
-    statusBadge: "ПЛАНИРУЕМАЯ ФУНКЦИЯ · MEDIA SHIELD",
     icon: Sliders,
+    title: "Настройки профиля",
+    description:
+      "Вы сами определяете, какие фотографии, интересы и детали анкеты отображаются в вашем профиле при знакомстве.",
+  },
+  {
+    icon: Database,
+    title: "Управление данными",
+    description:
+      "Прозрачный контроль над переданной информацией и возможность в любой момент запросить изменение или удаление учётных данных.",
+  },
+  {
+    icon: UserX,
+    title: "Блокировка пользователей",
+    description:
+      "Возможность мгновенно прекратить диалог и ограничить доступ любого участника к вашему профилю.",
+  },
+  {
+    icon: ShieldAlert,
+    title: "Жалобы и безопасность",
+    description:
+      "Инструменты отправки обращений модерации при нарушении правил уважительного общения на платформе.",
   },
 ]
 
-export const Privacy: React.FC = () => {
-  const [enabledIds, setEnabledIds] = useState<string[]>([
-    "ephemeral-24h",
-    "orbital-visibility",
-    "mutual-consent",
-  ])
-  const [ttlHours, setTtlHours] = useState<number>(24)
-
-  const toggleControl = (id: string) => {
-    setEnabledIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    )
-  }
-
-  const shieldActive = enabledIds.includes("orbital-visibility")
-  const shieldStrength = enabledIds.length / PRIVACY_CONTROLS.length
+export const Privacy: React.FC<PrivacyProps> = ({ onOpenLegal }) => {
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const { hasEntered } = useInView(sectionRef, "150px")
 
   return (
     <section
       id="privacy"
-      className="relative scroll-mt-20 py-24 lg:py-32 bg-[#0D0F18] border-t border-[#A79AFF]/10 overflow-hidden"
+      ref={sectionRef}
+      className="relative py-24 lg:py-32 overflow-hidden bg-[#080910] border-t border-[rgba(190,185,255,0.12)]"
       aria-labelledby="privacy-heading"
     >
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-        {/* Section Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-14">
-          <div className="lg:col-span-7 space-y-3">
-            <div className="flex items-center gap-3">
-              <span className="font-mono-tech text-xs uppercase tracking-[0.22em] text-[#A79AFF]">
-                07 // PRIVACY — YOUR UNIVERSE IS YOURS
-              </span>
-            </div>
+      {/* Calm, Restrained Ambient Background Light */}
+      <div
+        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[540px] w-[540px] rounded-full opacity-14 blur-[140px]"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(167,154,255,0.28) 0%, rgba(169,216,255,0.08) 65%, transparent 100%)",
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
+        <div
+          className={`grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center transition-opacity duration-1000 ease-out ${
+            hasEntered || prefersReducedMotion ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {/* Left Column (6 Cols): Calm Editorial Copy & Planned Privacy Controls */}
+          <div className="lg:col-span-6 flex flex-col items-start text-left space-y-6">
+            <span className="font-mono-tech text-[11px] uppercase tracking-[0.2em] text-[#A79AFF]">
+              PRIVACY / 05
+            </span>
+
             <h2
               id="privacy-heading"
-              className="font-editorial text-3xl sm:text-5xl lg:text-[56px] font-normal text-[#F4F0FF] leading-[1.06]"
+              className="font-editorial text-4xl sm:text-5xl lg:text-[56px] font-normal text-[#F4F3FA] leading-[1.06] tracking-[-0.015em]"
             >
-              Ваша Вселенная принадлежит вам.{" "}
-              <span className="italic text-[#A79AFF]">
-                Защитная орбита личных границ.
+              Твоё пространство.{" "}
+              <span className="italic font-light text-[#A79AFF]">
+                Твои правила.
               </span>
             </h2>
-          </div>
 
-          <div className="lg:col-span-5">
-            <p className="text-sm sm:text-base text-[#A7A6B8] font-light leading-relaxed">
-              Когда вы активируете защитную орбиту, пространство вокруг вашего
-              сигнала становится спокойнее, а второстепенные внешние сигналы
-              гаснут.
+            <p className="font-sans text-base sm:text-lg text-[#A1A2B5] font-light leading-[1.65] max-w-[540px]">
+              Знакомься в комфортном для себя темпе. Понимай, какую информацию о
+              себе раскрываешь и как управляешь своим профилем.
             </p>
-          </div>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left 7 Cols: Interactive Concept Preview Toggles */}
-          <div className="lg:col-span-7 space-y-4">
-            {PRIVACY_CONTROLS.map((ctrl) => {
-              const Icon = ctrl.icon
-              const isOn = enabledIds.includes(ctrl.id)
-              return (
-                <div
-                  key={ctrl.id}
-                  className={`cosmic-glass rounded-[24px] p-5 sm:p-6 border transition-all ${
-                    isOn
-                      ? "border-[#A79AFF]/40 bg-[#14182A]/75"
-                      : "border-[#A79AFF]/15 bg-[#080910]/60"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-start gap-4">
-                      <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#080910] border border-[#A79AFF]/25 text-[#A79AFF]">
-                        <Icon className="h-5 w-5" aria-hidden="true" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <span className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#A79AFF] block">
-                          {ctrl.statusBadge}
-                        </span>
-                        <h3 className="font-editorial text-xl sm:text-2xl text-[#F4F0FF]">
-                          {ctrl.title}
-                        </h3>
-                        <p className="text-xs font-medium text-[#A79AFF]/90">
-                          {ctrl.subtitle}
-                        </p>
-                        <p className="text-xs sm:text-sm text-[#A7A6B8] font-light leading-relaxed pt-1">
-                          {ctrl.description}
-                        </p>
-                      </div>
-                    </div>
-
-                    <button
-                      type="button"
-                      role="switch"
-                      aria-checked={isOn}
-                      aria-label={`Переключить демонстрационный режим: ${ctrl.title}`}
-                      onClick={() => toggleControl(ctrl.id)}
-                      className={`relative mt-1 inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors cursor-pointer ${
-                        isOn
-                          ? "bg-[#6E5BFF]"
-                          : "bg-[#080910] border border-[#A79AFF]/30"
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-5 w-5 transform rounded-full bg-[#F4F0FF] transition-transform ${
-                          isOn ? "translate-x-6" : "translate-x-1"
-                        }`}
-                      />
-                    </button>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Right 5 Cols: Protective Orbit Visual Scene + Honest Disclosure */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="cosmic-glass rounded-[28px] p-6 sm:p-8 border border-[#A79AFF]/25 space-y-6">
-              <div className="flex items-center justify-between">
-                <Badge variant="signal">
-                  <Shield className="h-3.5 w-3.5" aria-hidden="true" />
-                  <span>ЗАЩИТНАЯ ОРБИТА · CONCEPT</span>
-                </Badge>
-                <span className="font-mono-tech text-xs text-[#A79AFF]">
-                  КОНТУРОВ: {enabledIds.length}/4
+            {/* Clearly Separated Planned Product Controls */}
+            <div className="w-full pt-2 space-y-3">
+              <div className="flex items-center justify-between gap-2 pb-1">
+                <span className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#A1A2B5]">
+                  ПЛАНИРУЕМАЯ АРХИТЕКТУРА УПРАВЛЕНИЯ ПРОФИЛЕМ В ПРИЛОЖЕНИИ
                 </span>
-              </div>
-
-              {/* Protective Orbit SVG Scene: Secondary signals fade when shield is active */}
-              <div className="relative w-full aspect-[16/10] rounded-2xl bg-[#080910] border border-[#A79AFF]/20 overflow-hidden flex items-center justify-center">
-                <svg
-                  className="w-full h-full"
-                  viewBox="0 0 420 260"
-                  fill="none"
-                  role="img"
-                  aria-label="Визуализация защитной орбиты вокруг вашего сигнала: второстепенные сигналы приглушаются"
-                >
-                  <defs>
-                    <radialGradient id="privacyShieldGlow" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stopColor="#6E5BFF" stopOpacity="0.35" />
-                      <stop offset="70%" stopColor="#A79AFF" stopOpacity="0.12" />
-                      <stop offset="100%" stopColor="#080910" stopOpacity="0" />
-                    </radialGradient>
-                  </defs>
-
-                  {/* Exterior Secondary Signals (fade out when shieldActive is true) */}
-                  <g
-                    style={{
-                      opacity: shieldActive ? 0.12 : 0.75,
-                      transition: "opacity 0.6s ease",
-                    }}
-                  >
-                    <circle cx="55" cy="52" r="3" fill="#A79AFF" />
-                    <circle cx="365" cy="60" r="3.5" fill="#A79AFF" />
-                    <circle cx="68" cy="205" r="3" fill="#6E5BFF" />
-                    <circle cx="352" cy="210" r="3" fill="#A79AFF" />
-                    <line
-                      x1="55"
-                      y1="52"
-                      x2="135"
-                      y2="95"
-                      stroke="#A79AFF"
-                      strokeOpacity="0.3"
-                      strokeDasharray="3 4"
-                    />
-                    <line
-                      x1="365"
-                      y1="60"
-                      x2="285"
-                      y2="98"
-                      stroke="#A79AFF"
-                      strokeOpacity="0.3"
-                      strokeDasharray="3 4"
-                    />
-                  </g>
-
-                  {/* Protective Orbital Dome around Center */}
-                  <circle
-                    cx="210"
-                    cy="130"
-                    r={62 + shieldStrength * 28}
-                    fill="url(#privacyShieldGlow)"
-                  />
-                  <circle
-                    cx="210"
-                    cy="130"
-                    r="86"
-                    stroke="#A79AFF"
-                    strokeOpacity={shieldActive ? "0.85" : "0.25"}
-                    strokeWidth={shieldActive ? "1.8" : "1"}
-                  />
-                  <circle
-                    cx="210"
-                    cy="130"
-                    r="60"
-                    stroke="#6E5BFF"
-                    strokeOpacity={0.4 + shieldStrength * 0.45}
-                    strokeWidth="1.2"
-                    strokeDasharray="5 4"
-                  />
-
-                  {/* Protected Core Signal */}
-                  <circle cx="210" cy="130" r="7" fill="#F4F0FF" />
-                  <text
-                    x="210"
-                    y="156"
-                    textAnchor="middle"
-                    fill="#F4F0FF"
-                    fontSize="9"
-                    fontFamily="JetBrains Mono, monospace"
-                    letterSpacing="1.5"
-                  >
-                    {shieldActive ? "ЗАЩИЩЁННАЯ ОРБИТА" : "ОТКРЫТЫЙ ЭФИР"}
-                  </text>
-                </svg>
               </div>
 
               <div className="space-y-3">
-                <span className="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-[#A7A6B8] block">
-                  ТАЙМЕР ИСЧЕЗАЮЩИХ СООБЩЕНИЙ (КОНЦЕПТ):
-                </span>
-                <div className="grid grid-cols-3 gap-2">
-                  {[
-                    { hours: 6, label: "6 часов" },
-                    { hours: 24, label: "24 часа" },
-                    { hours: 72, label: "72 часа" },
-                  ].map((opt) => (
-                    <button
-                      key={opt.hours}
-                      type="button"
-                      onClick={() => setTtlHours(opt.hours)}
-                      className={`rounded-xl py-2.5 px-3 text-xs font-mono-tech transition-all cursor-pointer border ${
-                        ttlHours === opt.hours
-                          ? "bg-[#6E5BFF] text-[#F4F0FF] border-[#A79AFF]"
-                          : "bg-[#080910]/80 text-[#A7A6B8] border-[#A79AFF]/20 hover:text-[#F4F0FF]"
-                      }`}
+                {PRIVACY_ITEMS.map((item) => {
+                  const Icon = item.icon
+                  return (
+                    <div
+                      key={item.title}
+                      className="flex items-start gap-4 rounded-[20px] border border-[rgba(190,185,255,0.14)] bg-[rgba(19,21,38,0.58)] p-4 sm:p-5"
                     >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(190,185,255,0.2)] bg-[#14182A]/80 text-[#A79AFF]">
+                        <Icon className="h-4 w-4" aria-hidden="true" />
+                      </div>
+                      <div className="space-y-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="font-editorial text-xl sm:text-2xl text-[#F4F3FA]">
+                            {item.title}
+                          </h3>
+                          <span className="font-mono-tech text-[9px] uppercase tracking-[0.14em] text-[#A1A2B5]/80">
+                            ПЛАНИРУЕМАЯ ФУНКЦИЯ
+                          </span>
+                        </div>
+                        <p className="font-sans text-xs sm:text-sm text-[#A1A2B5] font-light leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Direct Link to Privacy Policy Modal */}
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <button
+                type="button"
+                onClick={() => onOpenLegal?.("privacy")}
+                className="inline-flex items-center gap-2 rounded-full border border-[rgba(190,185,255,0.24)] bg-[#14182A]/75 px-5 py-2.5 font-sans text-xs sm:text-sm text-[#F4F3FA] hover:border-[#A79AFF] transition-colors cursor-pointer"
+              >
+                <FileText
+                  className="h-4 w-4 text-[#A79AFF]"
+                  aria-hidden="true"
+                />
+                <span>Политика конфиденциальности</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onOpenLegal?.("terms")}
+                className="font-mono-tech text-xs text-[#A1A2B5] hover:text-[#F4F3FA] transition-colors cursor-pointer"
+              >
+                Пользовательское соглашение
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column (6 Cols): Smoked-Glass Sculpture Visual */}
+          <div className="lg:col-span-6">
+            <div className="relative mx-auto max-w-[540px] lg:max-w-none rounded-[26px] overflow-hidden border border-[rgba(190,185,255,0.16)] bg-[#0D0F18] shadow-[0_24px_80px_-20px_rgba(8,9,16,0.9)]">
+              <div className="aspect-[10/11] w-full overflow-hidden">
+                <img
+                  src="./images/privacy-glass.webp"
+                  alt="Минималистичная архитектурная скульптура из матового тёмного стекла в лавандовом и ледяном голубом свете, символизирующая спокойствие и личные границы"
+                  width={1000}
+                  height={1100}
+                  loading="lazy"
+                  className="h-full w-full object-cover object-center"
+                />
               </div>
 
-              {/* Honest Technical & Production Disclosure */}
-              <div className="rounded-2xl bg-[#080910] border border-[#A79AFF]/25 p-5 space-y-2.5">
-                <div className="flex items-center gap-2 text-xs font-mono-tech uppercase tracking-wider text-[#F4F0FF]">
-                  <AlertCircle
-                    className="h-4 w-4 text-[#A79AFF] shrink-0"
-                    aria-hidden="true"
-                  />
-                  <span>Честное уведомление об архитектуре</span>
-                </div>
-                <p className="text-xs text-[#A7A6B8] font-light leading-relaxed">
-                  1. <strong className="text-[#F4F0FF]">Концептуальный статус:</strong>{" "}
-                  Представленные выше переключатели (включая исчезающие через{" "}
-                  {ttlHours} ч. сообщения) демонстрируют запланированную
-                  продуктовую архитектуру и не являются работающей серверной
-                  гарантией на данной демо-странице.
-                </p>
-                <p className="text-xs text-[#A7A6B8] font-light leading-relaxed">
-                  2. <strong className="text-[#F4F0FF]">Скриншоты и анонимность:</strong>{" "}
-                  Веб-сайт не может гарантировать абсолютную анонимность или
-                  технический запрет скриншотов и фотосъёмки экрана на всех
-                  устройствах.
+              <div
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080910]/85 via-transparent to-[#080910]/20"
+                aria-hidden="true"
+              />
+
+              <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 rounded-2xl border border-[rgba(190,185,255,0.16)] bg-[rgba(19,21,38,0.72)] backdrop-blur-md p-4">
+                <span className="block font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#A9D8FF]">
+                  ПРОЗРАЧНОСТЬ И КОНТРОЛЬ
+                </span>
+                <p className="mt-1 font-sans text-xs sm:text-sm text-[#F4F3FA]/90 font-light leading-relaxed">
+                  Спокойная цифровая среда, в которой вы сами выбираете темп
+                  знакомства и объём открытой информации.
                 </p>
               </div>
             </div>

@@ -10,6 +10,17 @@
     --text-starlight: #F4F0FF;
     --text-muted-silver: #A7A6B8;
 
+    --astro-bg: #080910;
+    --astro-bg-secondary: #0D0F18;
+    --astro-surface: #14182A;
+    --astro-violet: #6E5BFF;
+    --astro-lavender: #A79AFF;
+    --astro-ice: #A9D8FF;
+    --astro-text: #F4F3FA;
+    --astro-text-muted: #A1A2B5;
+    --astro-border: rgba(190, 185, 255, 0.14);
+    --astro-glass: rgba(19, 21, 38, 0.68);
+
     --font-serif: "Cormorant Garamond", "Instrument Serif", Georgia, serif;
     --font-display: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
     --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -57,11 +68,6 @@
 
 .font-mono-tech {
   font-family: var(--font-mono);
-}
-
-/* Subtle Film Grain & Cosmic Atmosphere */
-.film-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
 }
 
 /* Custom Animations */
@@ -174,6 +180,133 @@
 .cosmic-glass-interactive:hover {
   border-color: rgba(167, 154, 255, 0.38);
   box-shadow: 0 0 35px -8px rgba(110, 91, 255, 0.28);
+}
+
+/* Section 05 — Connection Showcase */
+.connection-showcase {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+.connection-showcase__profile,
+.connection-showcase__conversation {
+  position: relative;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--astro-border);
+  border-radius: 22px;
+  background: var(--astro-glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.connection-showcase__image {
+  overflow: hidden;
+  aspect-ratio: 4 / 4.6;
+  border-radius: 14px;
+  background: var(--astro-bg-secondary);
+}
+
+.connection-showcase__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.connection-showcase__eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  color: var(--astro-lavender);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.connection-showcase__details h3 {
+  margin-top: 10px;
+  font-family: var(--font-serif);
+  font-size: 1.65rem;
+  line-height: 1.2;
+  color: var(--astro-text);
+}
+
+.connection-showcase__details p {
+  margin-top: 6px;
+  font-size: 0.925rem;
+  color: var(--astro-text-muted);
+  line-height: 1.6;
+}
+
+.connection-showcase__message {
+  margin-top: 16px;
+  padding: 13px 16px;
+  border: 1px solid var(--astro-border);
+  border-radius: 14px 14px 14px 4px;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--astro-text);
+  font-size: 0.925rem;
+  line-height: 1.6;
+}
+
+.connection-showcase__message--reply {
+  border-color: rgba(167, 154, 255, 0.24);
+  border-radius: 14px 14px 4px 14px;
+  background: rgba(110, 91, 255, 0.11);
+}
+
+.connection-showcase__link {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+
+.connection-showcase__link span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--astro-lavender),
+    var(--astro-ice),
+    transparent
+  );
+}
+
+@media (max-width: 768px) {
+  .connection-showcase {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .connection-showcase__link {
+    min-height: 32px;
+  }
+
+  .connection-showcase__link span {
+    width: 1.5px;
+    height: 32px;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      var(--astro-lavender),
+      var(--astro-ice),
+      transparent
+    );
+  }
+
+  .connection-showcase__profile,
+  .connection-showcase__conversation {
+    padding: 18px;
+  }
 }
 
 /* Custom Focus Ring for Accessibility */

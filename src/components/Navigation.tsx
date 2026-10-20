@@ -8,12 +8,12 @@ interface NavigationProps {
 }
 
 const NAV_LINKS = [
-  { id: "radar", label: "Радар", num: "01" },
+  { id: "radar", label: "Сигналы", num: "01" },
   { id: "synchronicity", label: "Синхронность", num: "02" },
-  { id: "stories", label: "Истории", num: "03" },
-  { id: "signal", label: "Ваш сигнал", num: "04" },
-  { id: "desires", label: "Импульсы", num: "05" },
-  { id: "privacy", label: "Приватность", num: "06" },
+  { id: "desires", label: "Желания", num: "03" },
+  { id: "connection", label: "Связь", num: "04" },
+  { id: "privacy", label: "Приватность", num: "05" },
+  { id: "signal", label: "Ваш сигнал", num: "06" },
 ]
 
 export const Navigation: React.FC<NavigationProps> = ({ activeSignalLabel }) => {
