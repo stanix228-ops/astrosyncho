@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-deep-space: #080910;
+    --bg-cosmic-black: #0D0F18;
+    --bg-midnight-blue: #14182A;
+    --accent-nebula-violet: #6E5BFF;
+    --accent-electric-lavender: #A79AFF;
+    --text-starlight: #F4F0FF;
+    --text-muted-silver: #A7A6B8;
+
+    --font-serif: "Cormorant Garamond", "Instrument Serif", Georgia, serif;
+    --font-display: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+    --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+  }
+
+  * {
+    border-color: rgba(167, 154, 255, 0.12);
+  }
+
+  html {
+    background-color: #080910;
+    color: #F4F0FF;
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Typography Utilities */
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+.font-brand {
+  font-family: var(--font-display);
+}
+
+.font-sans-ui {
+  font-family: var(--font-sans);
+}
+
+.font-mono-tech {
+  font-family: var(--font-mono);
+}
+
+/* Subtle Film Grain & Cosmic Atmosphere */
+.film-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* Custom Animations */
+@keyframes radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes signal-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.75);
+    opacity: 0.15;
+  }
+}
+
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes hero-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-radar-sweep {
+  animation: radar-sweep 18s linear infinite;
+}
+
+.animate-orbit-slow {
+  animation: orbit-slow 48s linear infinite;
+}
+
+.animate-orbit-reverse {
+  animation: orbit-reverse 64s linear infinite;
+}
+
+.animate-signal-pulse {
+  animation: signal-pulse 3.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-float-subtle {
+  animation: float-subtle 6s ease-in-out infinite;
+}
+
+.animate-hero-reveal {
+  animation: hero-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Subtle Glass Surface */
+.cosmic-glass {
+  background: linear-gradient(
+    145deg,
+    rgba(20, 24, 42, 0.72) 0%,
+    rgba(13, 15, 24, 0.88) 100%
+  );
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(167, 154, 255, 0.14);
+}
+
+.cosmic-glass-interactive {
+  background: linear-gradient(
+    145deg,
+    rgba(20, 24, 42, 0.65) 0%,
+    rgba(13, 15, 24, 0.85) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(167, 154, 255, 0.14);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.cosmic-glass-interactive:hover {
+  border-color: rgba(167, 154, 255, 0.38);
+  box-shadow: 0 0 35px -8px rgba(110, 91, 255, 0.28);
+}
+
+/* Custom Focus Ring for Accessibility */
+:focus-visible {
+  outline: 2px solid #A79AFF;
+  outline-offset: 3px;
+}
