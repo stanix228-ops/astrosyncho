@@ -8,49 +8,44 @@ interface PrivacyControlItem {
   subtitle: string
   description: string
   statusBadge: string
-  defaultEnabled: boolean
   icon: React.ComponentType<{ className?: string }>
 }
 
 const PRIVACY_CONTROLS: PrivacyControlItem[] = [
   {
     id: "ephemeral-24h",
-    title: "Исчезающие сообщения с настраиваемым сроком жизни",
-    subtitle: "Автоматическое затухание диалога через 24 часа или по выбранному таймеру",
+    title: "Исчезающие сообщения (24 часа)",
+    subtitle: "Запланированный механизм автоматического затухания диалога",
     description:
-      "В проектируемой архитектуре AstroSyncho вы сами задаёте время жизни переписки и голосовых заметок (например, 24 часа). После истечения таймера сообщения удаляются из активного окна диалога.",
-    statusBadge: "КОНЦЕПЦИЯ ПРОДУКТА · 24H LIFECYCLE",
-    defaultEnabled: true,
+      "В проектируемой архитектуре AstroSyncho вы можете включить 24-часовой цикл жизни переписки и голосовых заметок, чтобы история общения не накапливалась бессрочно.",
+    statusBadge: "КОНЦЕПТУАЛЬНАЯ ФУНКЦИЯ · 24H LIFECYCLE",
     icon: Clock,
   },
   {
     id: "orbital-visibility",
-    title: "Управление доступностью своего профиля",
-    subtitle: "Режим селективной орбиты и скрытия из общего радара",
+    title: "Защитная орбита и скрытие из общего радара",
+    subtitle: "Второстепенные сигналы гаснут — доступ только по вашему импульсу",
     description:
-      "Вы можете перевести профиль в режим «Тёмной орбиты»: ваш сигнал не отображается в общем сканировании и становится доступен только тем людям, которым вы сами отправили импульс.",
-    statusBadge: "КОНЦЕПЦИЯ ПРОДУКТА · VISIBILITY CONTROL",
-    defaultEnabled: true,
+      "В режиме защищённой орбиты ваш профиль исчезает из общего сканирования. Пространство вокруг вас становится тише, а связь возможна только с выбранным вами сигналом.",
+    statusBadge: "КОНЦЕПТУАЛЬНАЯ ФУНКЦИЯ · PROTECTIVE ORBIT",
     icon: EyeOff,
   },
   {
     id: "mutual-consent",
-    title: "Приватное взаимодействие по двойному согласию",
-    subtitle: "Отсутствие непрошеных сообщений и закрытый обмен медиа",
+    title: "Взаимодействие только по двойному резонансу",
+    subtitle: "Никаких непрошеных сообщений и мгновенное свёртывание орбиты",
     description:
-      "Канал связи открывается исключительно при обоюдном подтверждении резонанса. Любая сторона может в одно касание свернуть орбиту и прекратить доступ к своему профилю.",
-    statusBadge: "КОНЦЕПЦИЯ ПРОДУКТА · MUTUAL GATE",
-    defaultEnabled: true,
+      "Личный диалог открывается исключительно при взаимном отклике двух людей. В любой момент орбиту можно закрыть в одно касание.",
+    statusBadge: "КОНЦЕПТУАЛЬНАЯ ФУНКЦИЯ · MUTUAL GATE",
     icon: Lock,
   },
   {
     id: "content-boundaries",
-    title: "Предполагаемые механизмы контроля контента",
-    subtitle: "Персональные фильтры чувствительности и защита медиафайлов в интерфейсе",
+    title: "Деликатный экран для личных медиафайлов",
+    subtitle: "Превью под вуалью размытия до явного открытия получателем",
     description:
-      "Фотографии и аудиосигналы в личном диалоге по умолчанию отображаются под деликатной вуалью размытия до явного нажатия получателем и не индексируются внешними поисковыми системами.",
+      "Фотографии и видео в личном чате по умолчанию скрыты мягкой оптической вуалью и не индексируются внешними системами.",
     statusBadge: "ПЛАНИРУЕМАЯ ФУНКЦИЯ · MEDIA SHIELD",
-    defaultEnabled: false,
     icon: Sliders,
   },
 ]
@@ -69,6 +64,9 @@ export const Privacy: React.FC = () => {
     )
   }
 
+  const shieldActive = enabledIds.includes("orbital-visibility")
+  const shieldStrength = enabledIds.length / PRIVACY_CONTROLS.length
+
   return (
     <section
       id="privacy"
@@ -81,29 +79,25 @@ export const Privacy: React.FC = () => {
           <div className="lg:col-span-7 space-y-3">
             <div className="flex items-center gap-3">
               <span className="font-mono-tech text-xs uppercase tracking-[0.22em] text-[#A79AFF]">
-                07 // PRIVACY & CONTROL
-              </span>
-              <span className="h-px w-12 bg-[#A79AFF]/30" aria-hidden="true" />
-              <span className="font-mono-tech text-xs text-[#A7A6B8]">
-                АРХИТЕКТУРА ПРИВАТНОСТИ
+                07 // PRIVACY — YOUR UNIVERSE IS YOURS
               </span>
             </div>
             <h2
               id="privacy-heading"
               className="font-editorial text-3xl sm:text-5xl lg:text-[56px] font-normal text-[#F4F0FF] leading-[1.06]"
             >
-              Интимность требует{" "}
+              Ваша Вселенная принадлежит вам.{" "}
               <span className="italic text-[#A79AFF]">
-                полного контроля над границами.
+                Защитная орбита личных границ.
               </span>
             </h2>
           </div>
 
           <div className="lg:col-span-5">
             <p className="text-sm sm:text-base text-[#A7A6B8] font-light leading-relaxed">
-              Мы проектируем AstroSyncho как камерное пространство, где вы сами
-              управляете видимостью своего сигнала, временем жизни сообщений и
-              глубиной доступа к профилю.
+              Когда вы активируете защитную орбиту, пространство вокруг вашего
+              сигнала становится спокойнее, а второстепенные внешние сигналы
+              гаснут.
             </p>
           </div>
         </div>
@@ -151,7 +145,9 @@ export const Privacy: React.FC = () => {
                       aria-label={`Переключить демонстрационный режим: ${ctrl.title}`}
                       onClick={() => toggleControl(ctrl.id)}
                       className={`relative mt-1 inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors cursor-pointer ${
-                        isOn ? "bg-[#6E5BFF]" : "bg-[#080910] border border-[#A79AFF]/30"
+                        isOn
+                          ? "bg-[#6E5BFF]"
+                          : "bg-[#080910] border border-[#A79AFF]/30"
                       }`}
                     >
                       <span
@@ -166,22 +162,111 @@ export const Privacy: React.FC = () => {
             })}
           </div>
 
-          {/* Right 5 Cols: Interactive Lifecycle Preview & Honest Technical Disclosure */}
+          {/* Right 5 Cols: Protective Orbit Visual Scene + Honest Disclosure */}
           <div className="lg:col-span-5 space-y-6">
             <div className="cosmic-glass rounded-[28px] p-6 sm:p-8 border border-[#A79AFF]/25 space-y-6">
               <div className="flex items-center justify-between">
                 <Badge variant="signal">
                   <Shield className="h-3.5 w-3.5" aria-hidden="true" />
-                  <span>DEMO КОНФИГУРАТОР ПРИВАТНОСТИ</span>
+                  <span>ЗАЩИТНАЯ ОРБИТА · CONCEPT</span>
                 </Badge>
                 <span className="font-mono-tech text-xs text-[#A79AFF]">
-                  {enabledIds.length}/4 АКТИВНО
+                  КОНТУРОВ: {enabledIds.length}/4
                 </span>
+              </div>
+
+              {/* Protective Orbit SVG Scene: Secondary signals fade when shield is active */}
+              <div className="relative w-full aspect-[16/10] rounded-2xl bg-[#080910] border border-[#A79AFF]/20 overflow-hidden flex items-center justify-center">
+                <svg
+                  className="w-full h-full"
+                  viewBox="0 0 420 260"
+                  fill="none"
+                  role="img"
+                  aria-label="Визуализация защитной орбиты вокруг вашего сигнала: второстепенные сигналы приглушаются"
+                >
+                  <defs>
+                    <radialGradient id="privacyShieldGlow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="#6E5BFF" stopOpacity="0.35" />
+                      <stop offset="70%" stopColor="#A79AFF" stopOpacity="0.12" />
+                      <stop offset="100%" stopColor="#080910" stopOpacity="0" />
+                    </radialGradient>
+                  </defs>
+
+                  {/* Exterior Secondary Signals (fade out when shieldActive is true) */}
+                  <g
+                    style={{
+                      opacity: shieldActive ? 0.12 : 0.75,
+                      transition: "opacity 0.6s ease",
+                    }}
+                  >
+                    <circle cx="55" cy="52" r="3" fill="#A79AFF" />
+                    <circle cx="365" cy="60" r="3.5" fill="#A79AFF" />
+                    <circle cx="68" cy="205" r="3" fill="#6E5BFF" />
+                    <circle cx="352" cy="210" r="3" fill="#A79AFF" />
+                    <line
+                      x1="55"
+                      y1="52"
+                      x2="135"
+                      y2="95"
+                      stroke="#A79AFF"
+                      strokeOpacity="0.3"
+                      strokeDasharray="3 4"
+                    />
+                    <line
+                      x1="365"
+                      y1="60"
+                      x2="285"
+                      y2="98"
+                      stroke="#A79AFF"
+                      strokeOpacity="0.3"
+                      strokeDasharray="3 4"
+                    />
+                  </g>
+
+                  {/* Protective Orbital Dome around Center */}
+                  <circle
+                    cx="210"
+                    cy="130"
+                    r={62 + shieldStrength * 28}
+                    fill="url(#privacyShieldGlow)"
+                  />
+                  <circle
+                    cx="210"
+                    cy="130"
+                    r="86"
+                    stroke="#A79AFF"
+                    strokeOpacity={shieldActive ? "0.85" : "0.25"}
+                    strokeWidth={shieldActive ? "1.8" : "1"}
+                  />
+                  <circle
+                    cx="210"
+                    cy="130"
+                    r="60"
+                    stroke="#6E5BFF"
+                    strokeOpacity={0.4 + shieldStrength * 0.45}
+                    strokeWidth="1.2"
+                    strokeDasharray="5 4"
+                  />
+
+                  {/* Protected Core Signal */}
+                  <circle cx="210" cy="130" r="7" fill="#F4F0FF" />
+                  <text
+                    x="210"
+                    y="156"
+                    textAnchor="middle"
+                    fill="#F4F0FF"
+                    fontSize="9"
+                    fontFamily="JetBrains Mono, monospace"
+                    letterSpacing="1.5"
+                  >
+                    {shieldActive ? "ЗАЩИЩЁННАЯ ОРБИТА" : "ОТКРЫТЫЙ ЭФИР"}
+                  </text>
+                </svg>
               </div>
 
               <div className="space-y-3">
                 <span className="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-[#A7A6B8] block">
-                  СРОК ЖИЗНИ ИСЧЕЗАЮЩИХ СООБЩЕНИЙ (ПРОТОТИП):
+                  ТАЙМЕР ИСЧЕЗАЮЩИХ СООБЩЕНИЙ (КОНЦЕПТ):
                 </span>
                 <div className="grid grid-cols-3 gap-2">
                   {[
@@ -205,38 +290,27 @@ export const Privacy: React.FC = () => {
                 </div>
               </div>
 
-              {/* Simulated Ephemeral Message Preview */}
-              <div className="rounded-2xl bg-[#080910]/90 border border-[#A79AFF]/20 p-4 space-y-2">
-                <div className="flex items-center justify-between text-[10px] font-mono-tech text-[#A79AFF]">
-                  <span>ПРИМЕР ЗАЩИЩЁННОГО СИГНАЛА</span>
-                  <span>ТАЙМЕР: {ttlHours}:00:00</span>
-                </div>
-                <p className="font-editorial italic text-lg text-[#F4F0FF]">
-                  «Встретимся у панорамного окна на верхнем ярусе в 22:30. Сигнал
-                  исчезнет автоматически через {ttlHours} ч.»
-                </p>
-              </div>
-
               {/* Honest Technical & Production Disclosure */}
               <div className="rounded-2xl bg-[#080910] border border-[#A79AFF]/25 p-5 space-y-2.5">
                 <div className="flex items-center gap-2 text-xs font-mono-tech uppercase tracking-wider text-[#F4F0FF]">
-                  <AlertCircle className="h-4 w-4 text-[#A79AFF] shrink-0" aria-hidden="true" />
-                  <span>Честное уведомление об архитектуре и ограничениях</span>
+                  <AlertCircle
+                    className="h-4 w-4 text-[#A79AFF] shrink-0"
+                    aria-hidden="true"
+                  />
+                  <span>Честное уведомление об архитектуре</span>
                 </div>
                 <p className="text-xs text-[#A7A6B8] font-light leading-relaxed">
-                  1. <strong className="text-[#F4F0FF]">Статус функций:</strong> На данной
-                  странице представлен интерактивный концепт-макет. Полноценное
-                  серверное удаление сообщений по таймеру и управление видимостью
-                  профиля будут задействованы при подключении backend-инфраструктуры
-                  в рамках релиза Open Beta.
+                  1. <strong className="text-[#F4F0FF]">Концептуальный статус:</strong>{" "}
+                  Представленные выше переключатели (включая исчезающие через{" "}
+                  {ttlHours} ч. сообщения) демонстрируют запланированную
+                  продуктовую архитектуру и не являются работающей серверной
+                  гарантией на данной демо-странице.
                 </p>
                 <p className="text-xs text-[#A7A6B8] font-light leading-relaxed">
-                  2. <strong className="text-[#F4F0FF]">Техническая реальность браузера:</strong>{" "}
-                  Мы не даём ложных обещаний об абсолютной невозможности сделать
-                  скриншот. В стандартном веб-браузере невозможно универсально
-                  заблокировать системный захват экрана ОС или съёмку дисплея на
-                  внешнюю камеру, поэтому мы рекомендуем делиться чувствительным
-                  контентом только при возникновении личного доверия.
+                  2. <strong className="text-[#F4F0FF]">Скриншоты и анонимность:</strong>{" "}
+                  Веб-сайт не может гарантировать абсолютную анонимность или
+                  технический запрет скриншотов и фотосъёмки экрана на всех
+                  устройствах.
                 </p>
               </div>
             </div>

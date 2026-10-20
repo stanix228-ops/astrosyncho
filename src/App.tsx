@@ -68,8 +68,11 @@ export function App() {
           onTestSynchronicity={handleTestSynchronicity}
         />
 
-        {/* 03. SYNCHRONICITY */}
-        <Synchronicity partnerSignal={activeRadarSignal} />
+        {/* 03. SYNCHRONICITY & GALAXY BUILDER */}
+        <Synchronicity
+          partnerSignal={activeRadarSignal}
+          onSelectSignal={setSelectedSignalId}
+        />
 
         {/* 04. HUMAN STORIES */}
         <HumanStories />

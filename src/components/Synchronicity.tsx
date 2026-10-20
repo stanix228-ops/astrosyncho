@@ -1,12 +1,120 @@
-import React, { useState } from "react"
-import { Sparkles, Orbit, Info, ArrowRight } from "lucide-react"
+import React, { useState, useRef } from "react"
+import { Sparkles, Orbit, Info, ArrowRight, Compass, Radio } from "lucide-react"
 import { type RadarSignalNode } from "@/data/astroData"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { usePrefersReducedMotion } from "@/hooks/useMotionPreferences"
 
 interface SynchronicityProps {
   partnerSignal: RadarSignalNode
+  onSelectSignal?: (id: string) => void
 }
+
+interface GalaxyPlanet {
+  id: string
+  signalId: string
+  name: string
+  title: string
+  cx: number
+  cy: number
+  radius: number
+  orbitRx: number
+  orbitRy: number
+  orbitTilt: number
+  color: string
+  resonance: number
+  constellationTag: string
+  description: string
+  linkedTo: string[]
+}
+
+const GALAXY_PLANETS: GalaxyPlanet[] = [
+  {
+    id: "planet-lyra",
+    signalId: "sig-lyra",
+    name: "Планета Лира · Элина",
+    title: "Вечерний резонанс · Attraction",
+    cx: 240,
+    cy: 185,
+    radius: 13,
+    orbitRx: 150,
+    orbitRy: 82,
+    orbitTilt: -14,
+    color: "#A79AFF",
+    resonance: 96.4,
+    constellationTag: "СОЗВЕЗДИЕ ЛИРЫ · 0.42 AU",
+    description:
+      "Притягивает полуночные разговоры, аналоговое звучание и людей, умеющих слышать тишину между словами.",
+    linkedTo: ["planet-vega", "planet-cygnus"],
+  },
+  {
+    id: "planet-vega",
+    signalId: "sig-orion",
+    name: "Планета Вега · Марк",
+    title: "Спокойная гравитация · Calm",
+    cx: 485,
+    cy: 150,
+    radius: 11,
+    orbitRx: 175,
+    orbitRy: 95,
+    orbitTilt: 18,
+    color: "#6E5BFF",
+    resonance: 93.8,
+    constellationTag: "ВЕКТОР ОРИОНА · 0.61 AU",
+    description:
+      "Устойчивая орбита для тех, кто ценит бережное отношение к личным границам, камерную архитектуру и неспешное сближение.",
+    linkedTo: ["planet-lyra", "planet-altair"],
+  },
+  {
+    id: "planet-cygnus",
+    signalId: "sig-cygnus",
+    name: "Планета Лебедь · Клара",
+    title: "Камерный спектр · Intimacy",
+    cx: 355,
+    cy: 305,
+    radius: 12,
+    orbitRx: 140,
+    orbitRy: 75,
+    orbitTilt: 8,
+    color: "#F4F0FF",
+    resonance: 91.2,
+    constellationTag: "СЕКТОР CYGNUS · 0.51 AU",
+    description:
+      "Чувствительность к интонациям, авторскому кино и редким эмоциональным импульсам без социальных масок.",
+    linkedTo: ["planet-lyra", "planet-altair"],
+  },
+  {
+    id: "planet-altair",
+    signalId: "sig-altair",
+    name: "Планета Альтаир · Нора и Даниэль",
+    title: "Двойная система · Curiosity",
+    cx: 625,
+    cy: 275,
+    radius: 10,
+    orbitRx: 125,
+    orbitRy: 68,
+    orbitTilt: -22,
+    color: "#A79AFF",
+    resonance: 89.5,
+    constellationTag: "ДВОЙНАЯ ОРБИТА · 0.74 AU",
+    description:
+      "Иллюстрация момента, когда два независимых сигнала уже образовали устойчивую общую траекторию.",
+    linkedTo: ["planet-vega", "planet-cygnus"],
+  },
+]
+
+const CONSTELLATION_STARS = [
+  { x: 95, y: 80, r: 2 },
+  { x: 155, y: 115, r: 2.5 },
+  { x: 240, y: 185, r: 3 },
+  { x: 380, y: 78, r: 2 },
+  { x: 485, y: 150, r: 3 },
+  { x: 660, y: 95, r: 2.2 },
+  { x: 730, y: 185, r: 1.8 },
+  { x: 140, y: 310, r: 2.2 },
+  { x: 355, y: 305, r: 3 },
+  { x: 625, y: 275, r: 2.5 },
+]
 
 const ALIGNMENT_PRESETS = [
   {
@@ -32,16 +140,33 @@ const ALIGNMENT_PRESETS = [
   },
 ]
 
-export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) => {
-  const [convergence, setConvergence] = useState<number>(88)
+export const Synchronicity: React.FC<SynchronicityProps> = ({
+  partnerSignal,
+  onSelectSignal,
+}) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const galaxyStageRef = useRef<HTMLDivElement | null>(null)
 
-  // Compute dynamic orbital separation from convergence (0..100)
-  // At 100%, offset approaches 0 (shared barycenter); at 20%, orbits are far apart
+  const [activePlanetId, setActivePlanetId] = useState<string>("planet-lyra")
+  const [cursorOffset, setCursorOffset] = useState({ x: 0, y: 0 })
+  const [convergence, setConvergence] = useState<number>(88)
+  const [pulseCount, setPulseCount] = useState<number>(0)
+
+  const activePlanet =
+    GALAXY_PLANETS.find((p) => p.id === activePlanetId) || GALAXY_PLANETS[0]
+
+  const handleGalaxyMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (prefersReducedMotion) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    const nx = (e.clientX - rect.left) / rect.width - 0.5
+    const ny = (e.clientY - rect.top) / rect.height - 0.5
+    setCursorOffset({ x: nx * 22, y: ny * 22 })
+  }
+
   const separation = Math.max(8, (100 - convergence) * 1.45)
   const leftCenterX = 300 - separation
   const rightCenterX = 300 + separation
 
-  // Compute three symbolic dimension scores
   const rhythmScore = Math.min(99, Math.round(convergence * 0.98 + 2))
   const cadenceScore = Math.min(99, Math.round(convergence * 0.94 + 5))
   const boundaryScore = Math.min(99, Math.round(convergence * 0.96 + 3))
@@ -52,6 +177,11 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
       : convergence < 85
       ? ALIGNMENT_PRESETS[1]
       : ALIGNMENT_PRESETS[2]
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id)
+    if (el) el.scrollIntoView({ behavior: "smooth" })
+  }
 
   return (
     <section
@@ -75,32 +205,296 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
           <div className="space-y-3 max-w-2xl">
             <div className="flex items-center gap-3">
               <span className="font-mono-tech text-xs uppercase tracking-[0.22em] text-[#A79AFF]">
-                03 // SYNCHRONICITY
-              </span>
-              <span className="h-px w-12 bg-[#A79AFF]/30" aria-hidden="true" />
-              <span className="font-mono-tech text-xs text-[#A7A6B8]">
-                ОРБИТАЛЬНЫЙ РЕЗОНАНС
+                03 // GALAXY BUILDER & SYNCHRONICITY
               </span>
             </div>
             <h2
               id="synchronicity-heading"
               className="font-editorial text-3xl sm:text-5xl lg:text-[56px] font-normal text-[#F4F0FF] leading-[1.06]"
             >
-              Две траектории,{" "}
+              Живая галактика связей.{" "}
               <span className="italic text-[#A79AFF]">
-                образующие единую систему.
+                За пределами обычного совпадения.
               </span>
             </h2>
           </div>
 
           <p className="max-w-md text-sm sm:text-base text-[#A7A6B8] font-light leading-relaxed">
-            Управляйте фазой сближения ниже, чтобы увидеть, как два независимых
-            человеческих сигнала переходят от случайного касания к глубокому
-            взаимному резонансу.
+            Точки света превращаются в планеты и созвездия. Исследуйте живую
+            систему курсором или касанием: выбирайте планеты, наблюдайте за
+            синхронным резонансом орбит и управляйте их сближением.
           </p>
         </div>
 
-        {/* Interactive Dual-Orbit Stage */}
+        {/* =====================================================================
+            PART 1: GALAXY BUILDER — INTERACTIVE CONSTELLATION & PLANETARY SYSTEM
+           ===================================================================== */}
+        <div
+          ref={galaxyStageRef}
+          onMouseMove={handleGalaxyMouseMove}
+          className="cosmic-glass rounded-[32px] p-5 sm:p-8 border border-[#A79AFF]/30 mb-14 shadow-[0_0_85px_-20px_rgba(110,91,255,0.32)]"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-4 border-b border-[#A79AFF]/15">
+            <div className="flex items-center gap-2.5">
+              <Compass className="h-4 w-4 text-[#A79AFF]" aria-hidden="true" />
+              <span className="font-mono-tech text-xs uppercase tracking-[0.18em] text-[#F4F0FF]">
+                GALAXY BUILDER · ИНТЕРАКТИВНАЯ КАРТА ОРБИТ И СОЗВЕЗДИЙ
+              </span>
+            </div>
+            <Badge variant="signal">
+              АКТИВНАЯ ПЛАНЕТА: {activePlanet.name.toUpperCase()}
+            </Badge>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Interactive SVG Galaxy Canvas (8 Cols) */}
+            <div className="lg:col-span-8 relative rounded-2xl bg-[#080910] border border-[#A79AFF]/20 overflow-hidden aspect-[16/10] sm:aspect-[16/9]">
+              <svg
+                className="w-full h-full"
+                viewBox="0 0 800 420"
+                fill="none"
+                role="img"
+                aria-label="Интерактивная галактика: планеты, орбиты и созвездия человеческих связей"
+              >
+                <defs>
+                  <radialGradient id="planetHalo" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#A79AFF" stopOpacity="0.6" />
+                    <stop offset="60%" stopColor="#6E5BFF" stopOpacity="0.18" />
+                    <stop offset="100%" stopColor="#080910" stopOpacity="0" />
+                  </radialGradient>
+                </defs>
+
+                {/* Layer 1: Background Delicate Constellations (shift slightly with cursor) */}
+                <g
+                  style={{
+                    transform: `translate(${cursorOffset.x * -0.45}px, ${
+                      cursorOffset.y * -0.45
+                    }px)`,
+                    transition: "transform 0.35s ease-out",
+                  }}
+                >
+                  <polyline
+                    points="95,80 155,115 240,185 380,78 485,150 660,95 730,185"
+                    stroke="#A79AFF"
+                    strokeOpacity="0.16"
+                    strokeWidth="0.9"
+                    strokeDasharray="3 5"
+                  />
+                  <polyline
+                    points="140,310 240,185 355,305 625,275 485,150"
+                    stroke="#6E5BFF"
+                    strokeOpacity="0.2"
+                    strokeWidth="0.9"
+                  />
+                  {CONSTELLATION_STARS.map((st, idx) => (
+                    <circle
+                      key={idx}
+                      cx={st.x}
+                      cy={st.y}
+                      r={st.r}
+                      fill="#F4F0FF"
+                      fillOpacity="0.45"
+                    />
+                  ))}
+                </g>
+
+                {/* Layer 2: Planetary Orbits & Inter-Planet Resonance Bridges */}
+                <g
+                  style={{
+                    transform: `translate(${cursorOffset.x * 0.35}px, ${
+                      cursorOffset.y * 0.35
+                    }px)`,
+                    transition: "transform 0.35s ease-out",
+                  }}
+                >
+                  {/* Resonance connection lines between active planet and its linked planets */}
+                  {GALAXY_PLANETS.map((planet) => {
+                    const isLinked =
+                      activePlanet.id === planet.id ||
+                      activePlanet.linkedTo.includes(planet.id)
+                    if (!isLinked || planet.id === activePlanet.id) return null
+                    return (
+                      <g key={`link-${planet.id}`}>
+                        <line
+                          x1={activePlanet.cx}
+                          y1={activePlanet.cy}
+                          x2={planet.cx}
+                          y2={planet.cy}
+                          stroke="#A79AFF"
+                          strokeOpacity="0.7"
+                          strokeWidth="1.6"
+                          strokeDasharray="5 4"
+                        />
+                        {/* Midpoint synchronous resonance node */}
+                        <circle
+                          cx={(activePlanet.cx + planet.cx) / 2}
+                          cy={(activePlanet.cy + planet.cy) / 2}
+                          r="4"
+                          fill="#F4F0FF"
+                        />
+                      </g>
+                    )
+                  })}
+
+                  {/* Individual Planetary Orbits & Bodies */}
+                  {GALAXY_PLANETS.map((planet) => {
+                    const isSelected = planet.id === activePlanet.id
+                    const isLinked = activePlanet.linkedTo.includes(planet.id)
+                    return (
+                      <g
+                        key={planet.id}
+                        onClick={() => {
+                          setActivePlanetId(planet.id)
+                          setPulseCount((c) => c + 1)
+                          if (onSelectSignal) onSelectSignal(planet.signalId)
+                        }}
+                        className="cursor-pointer"
+                      >
+                        {/* Planetary Orbit Ellipse */}
+                        <ellipse
+                          cx={planet.cx}
+                          cy={planet.cy}
+                          rx={planet.orbitRx}
+                          ry={planet.orbitRy}
+                          transform={`rotate(${planet.orbitTilt} ${planet.cx} ${planet.cy})`}
+                          stroke={isSelected ? "#A79AFF" : "#6E5BFF"}
+                          strokeOpacity={isSelected ? "0.75" : isLinked ? "0.4" : "0.18"}
+                          strokeWidth={isSelected ? "1.6" : "1"}
+                          strokeDasharray={isSelected ? "none" : "4 6"}
+                        />
+
+                        {/* Synchronous Resonance Halo around Selected or Linked Planet */}
+                        {(isSelected || isLinked) && (
+                          <circle
+                            cx={planet.cx}
+                            cy={planet.cy}
+                            r={planet.radius * (isSelected ? 4.2 : 2.6)}
+                            fill="url(#planetHalo)"
+                          />
+                        )}
+
+                        {/* Outer interactive ring */}
+                        <circle
+                          cx={planet.cx}
+                          cy={planet.cy}
+                          r={planet.radius + (isSelected ? 9 : 5)}
+                          stroke={isSelected ? "#F4F0FF" : "#A79AFF"}
+                          strokeOpacity={isSelected ? "0.9" : "0.4"}
+                          strokeWidth={isSelected ? "1.5" : "1"}
+                        />
+
+                        {/* Planet Core */}
+                        <circle
+                          cx={planet.cx}
+                          cy={planet.cy}
+                          r={isSelected ? planet.radius + 2 : planet.radius}
+                          fill={isSelected ? "#F4F0FF" : planet.color}
+                        />
+
+                        {/* Planet Label */}
+                        <text
+                          x={planet.cx}
+                          y={planet.cy + planet.radius + 24}
+                          textAnchor="middle"
+                          fill={isSelected ? "#F4F0FF" : "#A7A6B8"}
+                          fontSize="11"
+                          fontFamily="JetBrains Mono, monospace"
+                        >
+                          {planet.name.split("·")[0].trim()} · {planet.resonance}%
+                        </text>
+                      </g>
+                    )
+                  })}
+                </g>
+              </svg>
+
+              {/* Bottom Telemetry Strip inside Galaxy Canvas */}
+              <div className="pointer-events-none absolute bottom-3 left-4 right-4 flex items-center justify-between text-[10px] font-mono-tech text-[#A7A6B8]">
+                <span>НАЖМИТЕ НА ПЛАНЕТУ ДЛЯ АКТИВАЦИИ ОРБИТЫ</span>
+                <span className="text-[#A79AFF]">
+                  РЕЗОНАНСНЫХ ИМПУЛЬСОВ: {pulseCount + 4}
+                </span>
+              </div>
+            </div>
+
+            {/* Right 4 Cols: Active Planet Inspector + Quick Selector */}
+            <div className="lg:col-span-4 space-y-4">
+              <div className="rounded-2xl bg-[#080910]/90 border border-[#A79AFF]/30 p-5 sm:p-6 space-y-4">
+                <div className="flex items-center justify-between text-[10px] font-mono-tech text-[#A79AFF]">
+                  <span>{activePlanet.constellationTag}</span>
+                  <span>{activePlanet.resonance}% SYNC</span>
+                </div>
+
+                <div>
+                  <h3 className="font-editorial text-2xl sm:text-3xl text-[#F4F0FF]">
+                    {activePlanet.name}
+                  </h3>
+                  <p className="font-mono-tech text-xs text-[#A79AFF] mt-0.5">
+                    {activePlanet.title}
+                  </p>
+                </div>
+
+                <p className="text-xs sm:text-sm text-[#A7A6B8] font-light leading-relaxed">
+                  {activePlanet.description}
+                </p>
+
+                <div className="pt-2 flex flex-col gap-2">
+                  <Button
+                    variant="orbital"
+                    size="sm"
+                    onClick={() => {
+                      if (onSelectSignal) onSelectSignal(activePlanet.signalId)
+                      scrollTo("stories")
+                    }}
+                    className="w-full justify-between"
+                  >
+                    <span>Перейти к человеческой истории</span>
+                    <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Accessible Keyboard/Touch Planet Buttons */}
+              <div
+                className="grid grid-cols-2 gap-2"
+                role="tablist"
+                aria-label="Выбор планеты в галактике"
+              >
+                {GALAXY_PLANETS.map((pl) => {
+                  const active = pl.id === activePlanet.id
+                  return (
+                    <button
+                      key={pl.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => {
+                        setActivePlanetId(pl.id)
+                        if (onSelectSignal) onSelectSignal(pl.signalId)
+                      }}
+                      className={`rounded-xl p-2.5 text-left transition-all cursor-pointer border ${
+                        active
+                          ? "bg-[#6E5BFF] text-[#F4F0FF] border-[#F4F0FF]/50"
+                          : "bg-[#080910]/80 text-[#A7A6B8] border-[#A79AFF]/20 hover:text-[#F4F0FF]"
+                      }`}
+                    >
+                      <span className="font-mono-tech text-[10px] block truncate">
+                        {pl.name}
+                      </span>
+                      <span className="font-mono-tech text-[9px] opacity-80">
+                        Резонанс {pl.resonance}%
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* =====================================================================
+            PART 2: SYNCHRONICITY DUAL-ORBIT CONVERGENCE SIMULATOR
+           ===================================================================== */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           {/* Left 7 Cols: Interactive SVG Orbital Geometry */}
           <div className="lg:col-span-7 cosmic-glass rounded-[32px] p-6 sm:p-8 border border-[#A79AFF]/25 relative overflow-hidden">
@@ -114,7 +508,6 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
               <Badge variant="signal">ИНДЕКС СИНХРОННОСТИ: {convergence}%</Badge>
             </div>
 
-            {/* Interactive SVG Visualization */}
             <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl bg-[#080910]/90 border border-[#A79AFF]/15 overflow-hidden flex items-center justify-center">
               <svg
                 className="w-full h-full"
@@ -137,11 +530,9 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
                   </linearGradient>
                 </defs>
 
-                {/* Subtle background coordinate grid */}
                 <line x1="0" y1="170" x2="600" y2="170" stroke="#A79AFF" strokeOpacity="0.12" />
                 <line x1="300" y1="0" x2="300" y2="340" stroke="#A79AFF" strokeOpacity="0.12" />
 
-                {/* Shared Barycenter Energy Field (grows with convergence) */}
                 <circle
                   cx="300"
                   cy="170"
@@ -149,7 +540,7 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
                   fill="url(#barycenterGlow)"
                 />
 
-                {/* Orbit Alpha (User Signal) */}
+                {/* Orbit Alpha */}
                 <g
                   style={{
                     transform: `translateX(${leftCenterX - 300}px)`,
@@ -191,7 +582,7 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
                   </text>
                 </g>
 
-                {/* Orbit Beta (Partner Signal) */}
+                {/* Orbit Beta */}
                 <g
                   style={{
                     transform: `translateX(${rightCenterX - 300}px)`,
@@ -233,7 +624,6 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
                   </text>
                 </g>
 
-                {/* Luminous Harmonic Bridge Between Cores */}
                 <line
                   x1={leftCenterX}
                   y1="170"
@@ -243,7 +633,6 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
                   strokeWidth={convergence > 75 ? "2.5" : "1.2"}
                 />
 
-                {/* Resonant Intersection Nodes */}
                 {convergence > 50 && (
                   <>
                     <circle
@@ -263,7 +652,6 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
               </svg>
             </div>
 
-            {/* Interactive Slider & Preset Buttons */}
             <div className="mt-6 space-y-4">
               <div className="flex items-center justify-between text-xs font-mono-tech">
                 <label htmlFor="orbit-convergence-slider" className="text-[#A7A6B8]">
@@ -315,8 +703,9 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
           <div className="lg:col-span-5 space-y-6">
             <div className="cosmic-glass rounded-[28px] p-6 sm:p-8 border border-[#A79AFF]/20 space-y-6">
               <div className="space-y-2">
-                <span className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[#A79AFF]">
-                  СОСТОЯНИЕ СИСТЕМЫ
+                <span className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[#A79AFF] flex items-center gap-1.5">
+                  <Radio className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span>BEYOND THE ORDINARY MATCH</span>
                 </span>
                 <h3 className="font-editorial text-2xl sm:text-3xl text-[#F4F0FF]">
                   {activePreset.phaseTitle}
@@ -326,7 +715,6 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
                 </p>
               </div>
 
-              {/* Three Symbolic Dimensions */}
               <div className="space-y-4 pt-2 border-t border-[#A79AFF]/15">
                 {[
                   {
@@ -359,27 +747,24 @@ export const Synchronicity: React.FC<SynchronicityProps> = ({ partnerSignal }) =
                 ))}
               </div>
 
-              {/* Transparent Product Note (Scientific Honesty Requirement) */}
               <div className="rounded-2xl bg-[#080910]/85 border border-[#A79AFF]/20 p-4 flex items-start gap-3">
                 <Info className="h-4 w-4 text-[#A79AFF] shrink-0 mt-0.5" aria-hidden="true" />
                 <p className="text-xs text-[#A7A6B8] leading-relaxed">
                   <strong className="text-[#F4F0FF] font-medium">
                     Концептуальная модель персонализации:
                   </strong>{" "}
-                  AstroSyncho использует метафору орбит и синхронности для сопоставления
-                  добровольно выбранных вами ритмов дня, эстетических предпочтений и
-                  коммуникативных состояний. Мы не выдаём астрологию, лунные циклы или
-                  биоритмы за научно доказанные методы определения совместимости.
+                  AstroSyncho помогает исследовать эмоциональную близость и возможную
+                  совместимость через добровольно выбранные вами ритмы, состояния и
+                  интересы. Мы не утверждаем, что астрология, биоритмы или
+                  математическая формула научно гарантируют любовь или предсказывают
+                  отношения.
                 </p>
               </div>
 
               <Button
                 variant="orbital"
                 className="w-full justify-between"
-                onClick={() => {
-                  const el = document.getElementById("signal")
-                  if (el) el.scrollIntoView({ behavior: "smooth" })
-                }}
+                onClick={() => scrollTo("signal")}
               >
                 <span className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-[#A79AFF]" aria-hidden="true" />

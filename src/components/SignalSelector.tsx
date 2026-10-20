@@ -9,6 +9,54 @@ interface SignalSelectorProps {
   onSelectStateKey: (key: SignalStateConfig["key"]) => void
 }
 
+const CONNECTION_INTENTS: Record<
+  SignalStateConfig["key"],
+  {
+    intentLabel: string
+    orbitTilt: number
+    activeStarIndices: number[]
+  }
+> = {
+  Curiosity: {
+    intentLabel: "Meaningful Discovery · Поиск редкого собеседника",
+    orbitTilt: -18,
+    activeStarIndices: [0, 2, 5, 7],
+  },
+  Calm: {
+    intentLabel: "A Quiet Conversation · Тихий ночной диалог",
+    orbitTilt: 6,
+    activeStarIndices: [1, 3, 4, 8],
+  },
+  Attraction: {
+    intentLabel: "Unexpected Attraction · Неожиданное притяжение",
+    orbitTilt: 24,
+    activeStarIndices: [0, 3, 6, 8, 9],
+  },
+  Adventure: {
+    intentLabel: "Playful Chemistry · Живая химия и спонтанность",
+    orbitTilt: -28,
+    activeStarIndices: [1, 2, 5, 6, 9],
+  },
+  Intimacy: {
+    intentLabel: "Meaningful Connection · Глубокая эмоциональная связь",
+    orbitTilt: 14,
+    activeStarIndices: [2, 4, 5, 7, 8],
+  },
+}
+
+const STAGE_STARS = [
+  { x: 85, y: 55 },
+  { x: 165, y: 195 },
+  { x: 235, y: 72 },
+  { x: 300, y: 210 },
+  { x: 375, y: 62 },
+  { x: 445, y: 185 },
+  { x: 515, y: 78 },
+  { x: 120, y: 135 },
+  { x: 485, y: 145 },
+  { x: 295, y: 45 },
+]
+
 export const SignalSelector: React.FC<SignalSelectorProps> = ({
   selectedStateKey,
   onSelectStateKey,
@@ -17,20 +65,19 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
 
   const currentSignal =
     SIGNAL_STATES.find((s) => s.key === selectedStateKey) || SIGNAL_STATES[0]
+  const intentMeta = CONNECTION_INTENTS[selectedStateKey]
 
-  // Build smooth harmonic SVG path based on selected signal state & opennessLevel
   const generateWavePath = (waveOffset: number, scaleFactor: number) => {
     const points: string[] = []
     const steps = 60
     const width = 600
     const centerY = 130
-    const amp = (currentSignal.amplitude * (opennessLevel / 80)) * scaleFactor
+    const amp = currentSignal.amplitude * (opennessLevel / 80) * scaleFactor
     const freq = currentSignal.waveCount
 
     for (let i = 0; i <= steps; i++) {
       const x = (i / steps) * width
       const t = (i / steps) * Math.PI * freq + waveOffset
-      // Envelope keeps ends anchored smoothly
       const envelope = Math.sin((i / steps) * Math.PI)
       const y = centerY + Math.sin(t) * amp * envelope
       points.push(`${i === 0 ? "M" : "L"} ${x.toFixed(1)} ${y.toFixed(1)}`)
@@ -59,11 +106,7 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
           <div className="space-y-3 max-w-2xl">
             <div className="flex items-center gap-3">
               <span className="font-mono-tech text-xs uppercase tracking-[0.22em] text-[#A79AFF]">
-                05 // YOUR SIGNAL
-              </span>
-              <span className="h-px w-12 bg-[#A79AFF]/30" aria-hidden="true" />
-              <span className="font-mono-tech text-xs text-[#A7A6B8]">
-                ЛИЧНЫЙ СИГНАЛ
+                05 // YOUR SIGNAL — WHAT ARE YOU LOOKING FOR?
               </span>
             </div>
             <h2
@@ -76,9 +119,9 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
           </div>
 
           <p className="max-w-md text-sm sm:text-base text-[#A7A6B8] font-light leading-relaxed">
-            Ваш сигнал не статичен. Выбирайте эмоциональное состояние, которое
-            отражает ваш внутренний ритм сегодня — и наблюдайте, как меняется
-            геометрия вашего излучения.
+            Выберите желаемый тип эмоциональной связи или состояния — и
+            наблюдайте, как загораются соответствующие звёзды, меняют наклон
+            орбиты и перестраивается ваша спектрограмма.
           </p>
         </div>
 
@@ -90,6 +133,7 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
         >
           {SIGNAL_STATES.map((state) => {
             const isSelected = state.key === selectedStateKey
+            const meta = CONNECTION_INTENTS[state.key]
             return (
               <button
                 key={state.key}
@@ -104,12 +148,14 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
                 }`}
               >
                 <div className="flex items-center justify-between w-full mb-3">
-                  <span className="font-mono-tech text-[10px] uppercase tracking-[0.18em] text-[#A79AFF]">
+                  <span className="font-mono-tech text-[10px] uppercase tracking-[0.16em] text-[#A79AFF]">
                     {state.wavelength.split("·")[0]}
                   </span>
                   <span
                     className={`h-2.5 w-2.5 rounded-full transition-transform ${
-                      isSelected ? "scale-125 bg-[#F4F0FF] shadow-[0_0_10px_#6E5BFF]" : "bg-[#6E5BFF]/40"
+                      isSelected
+                        ? "scale-125 bg-[#F4F0FF] shadow-[0_0_10px_#6E5BFF]"
+                        : "bg-[#6E5BFF]/40"
                     }`}
                   />
                 </div>
@@ -117,7 +163,10 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
                   <div className="font-editorial text-2xl sm:text-[26px] text-[#F4F0FF] leading-none">
                     {state.titleEn}
                   </div>
-                  <div className="mt-1 text-xs text-[#A7A6B8] font-light">
+                  <div className="mt-1 text-xs text-[#A79AFF] font-mono-tech truncate">
+                    {meta.intentLabel.split("·")[0]}
+                  </div>
+                  <div className="mt-0.5 text-xs text-[#A7A6B8] font-light">
                     {state.titleRu}
                   </div>
                 </div>
@@ -128,46 +177,113 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
 
         {/* Synthesizer Visualizer + State Details */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Left 7 Cols: Live Harmonic Wave & Orbital Visualizer */}
+          {/* Left 7 Cols: Live Harmonic Wave, Reconfigurable Orbits & Igniting Stars */}
           <div className="lg:col-span-7 cosmic-glass rounded-[30px] p-6 sm:p-8 border border-[#A79AFF]/25 flex flex-col justify-between">
             <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
               <div className="flex items-center gap-2">
                 <Radio className="h-4 w-4 text-[#A79AFF]" aria-hidden="true" />
-                <span className="font-mono-tech text-xs uppercase tracking-[0.18em] text-[#F4F0FF]">
-                  СПЕКТРОГРАММА СИГНАЛА · {currentSignal.titleEn.toUpperCase()}
+                <span className="font-mono-tech text-xs uppercase tracking-[0.16em] text-[#F4F0FF]">
+                  {intentMeta.intentLabel}
                 </span>
               </div>
               <Badge variant="signal">{currentSignal.frequencyHz}</Badge>
             </div>
 
-            {/* Interactive SVG Harmonic Waveform */}
-            <div className="relative w-full aspect-[16/8] rounded-2xl bg-[#080910] border border-[#A79AFF]/15 overflow-hidden flex items-center justify-center my-2">
+            {/* Interactive SVG Harmonic Waveform + Igniting Constellation Stars + Tilting Orbits */}
+            <div className="relative w-full aspect-[16/8.5] rounded-2xl bg-[#080910] border border-[#A79AFF]/15 overflow-hidden flex items-center justify-center my-2">
               <svg
                 className="w-full h-full"
                 viewBox="0 0 600 260"
                 fill="none"
                 role="img"
-                aria-label={`Гармоническая волна сигнала для состояния ${currentSignal.titleEn}`}
+                aria-label={`Гармоническая волна и конфигурация орбит для состояния ${currentSignal.titleEn}`}
               >
-                {/* Reference Grid */}
-                <line x1="0" y1="130" x2="600" y2="130" stroke="#A79AFF" strokeOpacity="0.15" strokeDasharray="3 5" />
-                <circle
-                  cx="300"
-                  cy="130"
-                  r={45 + currentSignal.orbitEccentricity * 65}
-                  stroke={currentSignal.accentHex}
-                  strokeOpacity="0.28"
-                  strokeWidth="1"
-                  strokeDasharray="4 4"
+                <line
+                  x1="0"
+                  y1="130"
+                  x2="600"
+                  y2="130"
+                  stroke="#A79AFF"
+                  strokeOpacity="0.15"
+                  strokeDasharray="3 5"
                 />
-                <circle
-                  cx="300"
-                  cy="130"
-                  r={28 + (opennessLevel / 100) * 35}
-                  stroke="#F4F0FF"
-                  strokeOpacity="0.2"
-                  strokeWidth="1"
-                />
+
+                {/* Constellation lines between active stars */}
+                {intentMeta.activeStarIndices.map((starIdx, i) => {
+                  const nextIdx =
+                    intentMeta.activeStarIndices[
+                      (i + 1) % intentMeta.activeStarIndices.length
+                    ]
+                  const s1 = STAGE_STARS[starIdx]
+                  const s2 = STAGE_STARS[nextIdx]
+                  return (
+                    <line
+                      key={`c-${starIdx}-${nextIdx}`}
+                      x1={s1.x}
+                      y1={s1.y}
+                      x2={s2.x}
+                      y2={s2.y}
+                      stroke={currentSignal.accentHex}
+                      strokeOpacity="0.28"
+                      strokeWidth="0.9"
+                      strokeDasharray="3 4"
+                    />
+                  )
+                })}
+
+                {/* Stars that ignite based on chosen state */}
+                {STAGE_STARS.map((st, idx) => {
+                  const isLit = intentMeta.activeStarIndices.includes(idx)
+                  return (
+                    <g key={idx}>
+                      {isLit && (
+                        <circle
+                          cx={st.x}
+                          cy={st.y}
+                          r="9"
+                          fill={currentSignal.accentHex}
+                          fillOpacity="0.22"
+                        />
+                      )}
+                      <circle
+                        cx={st.x}
+                        cy={st.y}
+                        r={isLit ? "3.5" : "1.5"}
+                        fill={isLit ? "#F4F0FF" : "#A7A6B8"}
+                        fillOpacity={isLit ? "0.95" : "0.3"}
+                      />
+                    </g>
+                  )
+                })}
+
+                {/* Reconfigurable Orbital Rings */}
+                <g
+                  style={{
+                    transformOrigin: "300px 130px",
+                    transform: `rotate(${intentMeta.orbitTilt}deg)`,
+                    transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                  }}
+                >
+                  <ellipse
+                    cx="300"
+                    cy="130"
+                    rx={95 + currentSignal.orbitEccentricity * 85}
+                    ry={48 + (opennessLevel / 100) * 32}
+                    stroke={currentSignal.accentHex}
+                    strokeOpacity="0.45"
+                    strokeWidth="1.2"
+                    strokeDasharray="5 4"
+                  />
+                  <ellipse
+                    cx="300"
+                    cy="130"
+                    rx={68 + (opennessLevel / 100) * 40}
+                    ry={34 + currentSignal.orbitEccentricity * 30}
+                    stroke="#F4F0FF"
+                    strokeOpacity="0.28"
+                    strokeWidth="1"
+                  />
+                </g>
 
                 {/* Secondary Harmonic Wave */}
                 <path
@@ -194,12 +310,12 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
                 />
 
                 {/* Center Core Pulse */}
-                <circle cx="300" cy="130" r="5" fill="#F4F0FF" />
+                <circle cx="300" cy="130" r="5.5" fill="#F4F0FF" />
               </svg>
 
               <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[10px] font-mono-tech text-[#A7A6B8]">
                 <span>{currentSignal.ambientMetric}</span>
-                <span>ЭКСЦЕНТРИСИТЕТ: {currentSignal.orbitEccentricity}</span>
+                <span>НАКЛОН ОРБИТЫ: {intentMeta.orbitTilt}°</span>
               </div>
             </div>
 
@@ -210,7 +326,10 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
                   htmlFor="signal-openness-slider"
                   className="flex items-center gap-2 text-[#A7A6B8]"
                 >
-                  <Sliders className="h-3.5 w-3.5 text-[#A79AFF]" aria-hidden="true" />
+                  <Sliders
+                    className="h-3.5 w-3.5 text-[#A79AFF]"
+                    aria-hidden="true"
+                  />
                   <span>ГЛУБИНА ОТКРЫТОСТИ СИГНАЛА:</span>
                 </label>
                 <span className="text-[#F4F0FF]">{opennessLevel}%</span>
@@ -225,7 +344,7 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
                 className="w-full h-2 rounded-lg appearance-none bg-[#14182A] accent-[#6E5BFF] cursor-pointer"
               />
               <p className="text-[11px] text-[#A7A6B8]/75 font-mono-tech">
-                * Интерактивная демонстрация интерфейса управления личным сигналом (не является психологической диагностикой).
+                * Концептуальная демонстрация настройки личного сигнала (выбор работает локально в браузере и не создаёт реального сохранения на сервере).
               </p>
             </div>
           </div>
@@ -242,7 +361,9 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
 
               <h3 className="font-editorial text-3xl sm:text-4xl text-[#F4F0FF]">
                 {currentSignal.titleEn} —{" "}
-                <span className="italic text-[#A79AFF]">{currentSignal.titleRu}</span>
+                <span className="italic text-[#A79AFF]">
+                  {currentSignal.titleRu}
+                </span>
               </h3>
 
               <p className="font-editorial italic text-xl text-[#F4F0FF]/90">
@@ -284,7 +405,7 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
                 }}
               >
                 <Sparkles className="h-4 w-4" aria-hidden="true" />
-                <span>Сохранить сигнал «{currentSignal.titleEn}» для Beta</span>
+                <span>Передать сигнал «{currentSignal.titleEn}» в форму Beta</span>
               </Button>
             </div>
           </div>
