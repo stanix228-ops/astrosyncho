@@ -106,7 +106,7 @@ export const SignalSelector: React.FC<SignalSelectorProps> = ({
           <div className="space-y-3 max-w-2xl">
             <div className="flex items-center gap-3">
               <span className="font-mono-tech text-xs uppercase tracking-[0.22em] text-[#A79AFF]">
-                05 // YOUR SIGNAL — WHAT ARE YOU LOOKING FOR?
+                YOUR SIGNAL / 06 — WHAT ARE YOU LOOKING FOR?
               </span>
             </div>
             <h2

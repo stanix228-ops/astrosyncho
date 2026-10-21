@@ -150,7 +150,7 @@ export const BetaSignup: React.FC<BetaSignupProps> = ({
           </div>
 
           <span className="font-mono-tech text-xs uppercase tracking-[0.22em] text-[#A79AFF]">
-            08 // OPEN BETA — YOUR SIGNAL BELONGS HERE
+            OPEN BETA / 08 — YOUR SIGNAL BELONGS HERE
           </span>
           <h2
             id="beta-heading"

@@ -65,7 +65,7 @@ export const HumanStories: React.FC = () => {
           <div className="lg:col-span-7 space-y-4">
             <div className="flex items-center gap-3">
               <span className="font-mono-tech text-xs uppercase tracking-[0.22em] text-[#A79AFF]">
-                04 // HUMAN STORIES — EVERY SIGNAL HAS A STORY
+                STORIES / 07 — EVERY SIGNAL HAS A STORY
               </span>
             </div>
             <h2
