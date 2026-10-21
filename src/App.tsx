@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { IntroOverlay } from "@/components/IntroOverlay"
 import { Navigation } from "@/components/Navigation"
 import { Hero } from "@/components/Hero"
 import { CosmicRadar } from "@/components/CosmicRadar"
@@ -18,6 +19,7 @@ import {
 } from "@/data/astroData"
 
 export function App() {
+  const [showIntro, setShowIntro] = useState<boolean>(true)
   const [selectedSignalId, setSelectedSignalId] = useState<string>(
     RADAR_SIGNALS[0].id
   )
@@ -48,6 +50,12 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-[#080910] text-[#F4F0FF] relative selection:bg-[#6E5BFF]/35 selection:text-[#F4F0FF]">
+      {showIntro && (
+        <IntroOverlay
+          onComplete={() => setShowIntro(false)}
+          durationMs={5000}
+        />
+      )}
       {/* Top Navigation */}
       <Navigation activeSignalLabel={userSignalState} />
 
